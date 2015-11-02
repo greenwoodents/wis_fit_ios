@@ -27,5 +27,5 @@ class NetworkManager {
             configuration: configuration,
             serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
         )
-        }()
+    }()
 }

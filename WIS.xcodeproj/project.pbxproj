@@ -8,8 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3CB09C2C8CD47F3AFD8ECF2C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E0F201B32E58021EC5FC9 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC040781BCD84DF0067A54E /* NetworkManager.swift */; settings = {ASSET_TAGS = (); }; };
-		4CC0407B1BCD89190067A54E /* cacert.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0407A1BCD89190067A54E /* cacert.cer */; settings = {ASSET_TAGS = (); }; };
+		4CA6E5371BE292E2007491A7 /* PointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5361BE292E2007491A7 /* PointsCell.swift */; };
+		4CA6E53C1BE4145D007491A7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */; };
+		4CA6E5431BE421EE007491A7 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */; };
+		4CA6E5441BE421EE007491A7 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53E1BE421EE007491A7 /* Task.swift */; };
+		4CA6E5451BE421EE007491A7 /* Course+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53F1BE421EE007491A7 /* Course+CoreDataProperties.swift */; };
+		4CA6E5461BE421EE007491A7 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5401BE421EE007491A7 /* Course.swift */; };
+		4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */; };
+		4CA6E5481BE421EE007491A7 /* Variant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5421BE421EE007491A7 /* Variant.swift */; };
+		4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC040781BCD84DF0067A54E /* NetworkManager.swift */; };
+		4CC0407B1BCD89190067A54E /* cacert.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0407A1BCD89190067A54E /* cacert.cer */; };
 		4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */; };
 		4CDDDC321BCC187900F96360 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC311BCC187900F96360 /* ViewController.swift */; };
 		4CDDDC351BCC187900F96360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CDDDC331BCC187900F96360 /* Main.storyboard */; };
@@ -18,6 +26,9 @@
 		4CDDDC3D1BCC187900F96360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */; };
 		4CDDDC481BCC187900F96360 /* WISTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC471BCC187900F96360 /* WISTests.swift */; };
 		4CDDDC531BCC187A00F96360 /* WISUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC521BCC187A00F96360 /* WISUITests.swift */; };
+		4CFF61AA1BDB9BBA00667FE8 /* WISLoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */; };
+		4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */; };
+		4CFF61B51BDC45A100667FE8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61B41BDC45A100667FE8 /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +49,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4CA6E5361BE292E2007491A7 /* PointsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsCell.swift; sourceTree = "<group>"; };
+		4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4CA6E53E1BE421EE007491A7 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		4CA6E53F1BE421EE007491A7 /* Course+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4CA6E5401BE421EE007491A7 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Variant+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4CA6E5421BE421EE007491A7 /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
 		4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CC040781BCD84DF0067A54E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4CC0407A1BCD89190067A54E /* cacert.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = cacert.cer; sourceTree = SOURCE_ROOT; };
@@ -55,6 +74,11 @@
 		4CDDDC4E1BCC187A00F96360 /* WISUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WISUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDDDC521BCC187A00F96360 /* WISUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WISUITests.swift; sourceTree = "<group>"; };
 		4CDDDC541BCC187A00F96360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WISLoginCell.swift; sourceTree = "<group>"; };
+		4CFF61AB1BDBE29300667FE8 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
+		4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
+		4CFF61B41BDC45A100667FE8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		4CFF61B61BDC4A1000667FE8 /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = "<group>"; };
 		83AC73194BF0A4DE3106FC5F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AD0E0F201B32E58021EC5FC9 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE7C9CFE585397F5FEC7A83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +118,53 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4CA6E5381BE292E7007491A7 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */,
+				4CA6E5361BE292E2007491A7 /* PointsCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		4CA6E5391BE29305007491A7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CDDDC311BCC187900F96360 /* ViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		4CA6E53A1BE29338007491A7 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */,
+				4CFF61B61BDC4A1000667FE8 /* WIS-Bridging-Header.h */,
+				4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */,
+				4CC0407A1BCD89190067A54E /* cacert.cer */,
+				4CFF61B41BDC45A100667FE8 /* Data.swift */,
+				4CC040781BCD84DF0067A54E /* NetworkManager.swift */,
+				4CDDDC3E1BCC187900F96360 /* Info.plist */,
+				4CFF61AB1BDBE29300667FE8 /* KeychainWrapper.h */,
+				4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		4CA6E5491BE42664007491A7 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */,
+				4CA6E53E1BE421EE007491A7 /* Task.swift */,
+				4CA6E53F1BE421EE007491A7 /* Course+CoreDataProperties.swift */,
+				4CA6E5401BE421EE007491A7 /* Course.swift */,
+				4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */,
+				4CA6E5421BE421EE007491A7 /* Variant.swift */,
+			);
+			name = DataModel;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		4CDDDC231BCC187900F96360 = {
 			isa = PBXGroup;
 			children = (
@@ -120,15 +191,14 @@
 		4CDDDC2E1BCC187900F96360 /* WIS */ = {
 			isa = PBXGroup;
 			children = (
-				4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */,
-				4CC0407A1BCD89190067A54E /* cacert.cer */,
-				4CDDDC311BCC187900F96360 /* ViewController.swift */,
+				4CA6E5491BE42664007491A7 /* DataModel */,
+				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
+				4CA6E5381BE292E7007491A7 /* Cells */,
+				4CA6E5391BE29305007491A7 /* Controllers */,
 				4CDDDC331BCC187900F96360 /* Main.storyboard */,
 				4CDDDC391BCC187900F96360 /* Assets.xcassets */,
-				4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */,
-				4CDDDC3E1BCC187900F96360 /* Info.plist */,
 				4CDDDC361BCC187900F96360 /* WIS.xcdatamodeld */,
-				4CC040781BCD84DF0067A54E /* NetworkManager.swift */,
+				4CA6E53A1BE29338007491A7 /* Other */,
 			);
 			path = WIS;
 			sourceTree = "<group>";
@@ -346,10 +416,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA6E5461BE421EE007491A7 /* Course.swift in Sources */,
+				4CA6E5371BE292E2007491A7 /* PointsCell.swift in Sources */,
 				4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */,
+				4CA6E5481BE421EE007491A7 /* Variant.swift in Sources */,
+				4CA6E53C1BE4145D007491A7 /* NotificationManager.swift in Sources */,
 				4CDDDC321BCC187900F96360 /* ViewController.swift in Sources */,
+				4CA6E5441BE421EE007491A7 /* Task.swift in Sources */,
+				4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */,
 				4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */,
+				4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */,
 				4CDDDC381BCC187900F96360 /* WIS.xcdatamodeld in Sources */,
+				4CFF61AA1BDB9BBA00667FE8 /* WISLoginCell.swift in Sources */,
+				4CA6E5431BE421EE007491A7 /* Task+CoreDataProperties.swift in Sources */,
+				4CA6E5451BE421EE007491A7 /* Course+CoreDataProperties.swift in Sources */,
+				4CFF61B51BDC45A100667FE8 /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,10 +573,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = WIS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.tomasscavnicky.WIS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WIS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -507,10 +590,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = WIS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.tomasscavnicky.WIS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WIS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 			};
 			name = Release;
 		};
