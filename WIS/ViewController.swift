@@ -24,16 +24,13 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     
     
     func fetchResults() {
-        let appDelegate =
-        UIApplication.sharedApplication().delegate as! AppDelegate
         
-        let managedContext = appDelegate.managedObjectContext
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "Course")
         
         do {
-            let results =
-            try managedContext.executeFetchRequest(fetchRequest)
+            let results = try managedContext.executeFetchRequest(fetchRequest)
             courses = results as! [NSManagedObject]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
@@ -107,38 +104,6 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     
-    // MARK: Save course
-    
-    
-    func save_course(id: String, abbreviation abbrv: String, cesky title_cs: String, english title_en: String, semester sem: String, credits: String, points: String)
-    {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        
-        //2
-        let entity =  NSEntityDescription.entityForName("Course", inManagedObjectContext:managedContext)
-        let course = NSManagedObject(entity: entity!,insertIntoManagedObjectContext: managedContext)
-
-        
-        //3
-        course.setValue(abbrv, forKey: "abbrv")
-        course.setValue(NSNumber(integer: Int(credits  as String)!), forKey: "credits")
-        course.setValue(NSNumber(integer: Int(id as String)!), forKey: "id")
-        course.setValue(NSNumber(integer: Int(points as String)!), forKey: "points")
-        course.setValue(sem, forKey: "sem")
-        course.setValue(title_cs, forKey: "title_cs")
-        course.setValue(title_en, forKey: "title_en")
-        
-        //4
-        do {
-            try managedContext.save()
-            //5
-            courses.append(course)
-        } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        }
-    }
-    
     
     // MARK: Tableview controller methods
     
@@ -154,15 +119,18 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
             return cell
+            
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
             cell.pointsForCourse.text = "ahoj"
             return cell
+            
         } else if indexPath.row > 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
             let course = courses[indexPath.row - 2]
+            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
             cell.pointsForCourse.text = "\(course.valueForKey("abbrv")!) - \(course.valueForKey("points")!)"
             return cell
+            
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
             return cell

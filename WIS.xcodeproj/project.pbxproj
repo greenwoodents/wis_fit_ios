@@ -16,6 +16,7 @@
 		4CA6E5461BE421EE007491A7 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5401BE421EE007491A7 /* Course.swift */; };
 		4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */; };
 		4CA6E5481BE421EE007491A7 /* Variant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5421BE421EE007491A7 /* Variant.swift */; };
+		4CA6E54B1BE78A6D007491A7 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */; };
 		4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC040781BCD84DF0067A54E /* NetworkManager.swift */; };
 		4CC0407B1BCD89190067A54E /* cacert.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0407A1BCD89190067A54E /* cacert.cer */; };
 		4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */; };
@@ -57,6 +58,7 @@
 		4CA6E5401BE421EE007491A7 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Variant+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CA6E5421BE421EE007491A7 /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
+		4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CC040781BCD84DF0067A54E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4CC0407A1BCD89190067A54E /* cacert.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = cacert.cer; sourceTree = SOURCE_ROOT; };
@@ -121,6 +123,7 @@
 		4CA6E5381BE292E7007491A7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */,
 				4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */,
 				4CA6E5361BE292E2007491A7 /* PointsCell.swift */,
 			);
@@ -424,6 +427,7 @@
 				4CDDDC321BCC187900F96360 /* ViewController.swift in Sources */,
 				4CA6E5441BE421EE007491A7 /* Task.swift in Sources */,
 				4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */,
+				4CA6E54B1BE78A6D007491A7 /* NotificationCell.swift in Sources */,
 				4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */,
 				4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */,
 				4CDDDC381BCC187900F96360 /* WIS.xcdatamodeld in Sources */,

@@ -91,6 +91,33 @@
                                     <outlet property="pointsForCourse" destination="wkd-Kg-ssh" id="43v-YI-gpe"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notification" rowHeight="65" id="dkU-uH-OUR" customClass="NotificationCell" customModule="WIS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="268" width="320" height="65"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dkU-uH-OUR" id="VYZ-2G-ihL">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ekm-c8-CNw">
+                                            <rect key="frame" x="8" y="8" width="304" height="21"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="leadingMargin" secondItem="Ekm-c8-CNw" secondAttribute="leading" id="1k8-8G-edK"/>
+                                        <constraint firstAttribute="topMargin" secondItem="Ekm-c8-CNw" secondAttribute="top" id="LQa-zY-rKn"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Ekm-c8-CNw" secondAttribute="trailing" id="uFU-lY-wVd"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="pointsForCourse" destination="Ekm-c8-CNw" id="ASh-fV-365"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="hFp-GM-mA1" id="XLp-Qe-pfx"/>
