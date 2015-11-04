@@ -32,10 +32,8 @@ class Data {
                     for item in element.children {
                         if (item.attributes["lang"] == "cs") {
                             cesky = item.stringValue
-                            //print(cesky)
                         } else if (item.attributes["lang"] == "en") {
                             english = item.stringValue
-                            //print(english)
                         }
                     }
                     

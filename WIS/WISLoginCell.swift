@@ -97,6 +97,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                         if let _ = response.3 {
                             print("error")
                         } else {
+                            let notifManager = NotificationManager()
                             let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
                             
                             let defaults = NSUserDefaults.standardUserDefaults()
@@ -106,7 +107,9 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                             defaults.setBool(true, forKey: "loggedIn")
                             defaults.synchronize()
                             
-                            NotificationManager().parse(XMLstring as! String)
+                            if notifManager.parse(XMLstring as! String) {
+                                notifManager.updateCoursesAndTasks(XMLstring as! String)
+                            }
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
                             
@@ -116,7 +119,4 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
         }
         return true
     }
-
-    
-
 }
