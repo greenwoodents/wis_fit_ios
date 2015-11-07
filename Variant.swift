@@ -10,8 +10,7 @@ import Foundation
 import CoreData
 
 @objc(Variant)
-class Variant: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
-
+class Variant: NSManagedObject
+{
+    
 }

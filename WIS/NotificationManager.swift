@@ -12,7 +12,7 @@ import Fuzi
 
 public class NotificationManager
 {
-    struct CourseShort {
+    struct CourseSruct {
         var id: Int
         var abbrv: String
         var points: Int
@@ -20,20 +20,21 @@ public class NotificationManager
         var sem: String
         var title_cs: String?
         var title_en: String?
-        var tasks: [Task]?
+        var tasks: [TaskStruct]?
     }
     
-    struct Task {
+    struct TaskStruct {
         var id: Int? = 0
         var type: String? = ""
+        var title: String? = ""
         var start: String? = ""
         var end: String? = ""
         var reg_start: String? = ""
         var reg_end: String? = ""
-        var variants: [Variant]? = nil
+        var variants: [VariantStruct]? = nil
     }
     
-    struct Variant {
+    struct VariantStruct {
         var id: Int? = 0
         var registered: Int? = 0
         var limit: Int? = 0
@@ -43,174 +44,187 @@ public class NotificationManager
     var courseManagedObjects = [NSManagedObject]()
     var courseResults = [AnyObject]()
     var taskResults = [AnyObject]()
-    var courses = [CourseShort]()
+    var courses = [CourseSruct]()
+    var tasks = [TaskStruct]()
+    var variants = [VariantStruct]()
     let dateFormatter = NSDateFormatter()
     
     /**
-    * Creates Course and Task entities in Core Data
-    * No courses nor tasks have been saved yet -> true
-    * Courses and tasks have been saved befor (not first usage) -> false     
-    * TODO: link relationships between Tasks and Courses, if there already exists a database of Courses or Tasks, call updateCoursesAndTasks()
+    * Parses XMLString into a XMLDocument
+    * Creates new list of courses, tasks and variants based on the XMLDocument
     */
     
     func parse(XMLString: String) -> Bool {
-        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        let courseEntity =  NSEntityDescription.entityForName("Course", inManagedObjectContext:managedContext)
-        let taskEntity = NSEntityDescription.entityForName("Task", inManagedObjectContext:managedContext)
-        //let course = NSManagedObject(entity: entity!,insertIntoManagedObjectContext: managedContext)
-        
-        let courseFetchRequest = NSFetchRequest(entityName: "Course")
-        let taskFetchRequest = NSFetchRequest(entityName: "Task")
-        
+    
         do {
-            courseResults = try managedContext.executeFetchRequest(courseFetchRequest)
-            taskResults = try managedContext.executeFetchRequest(taskFetchRequest)
-        } catch let error as NSError {
-            print("\(error), \(error.userInfo)")
-        }
-        
-        if courseResults.isEmpty || taskResults.isEmpty {
-            do {
-                let document = try XMLDocument(string: XMLString as String)
-                if let root = document.root {
-                    for element in root.children {
-                        var courseStruct = CourseShort(id: Int(element.attributes["csid"]! as String)!,
-                            abbrv: element.attributes["abbrv"]!,
-                            points: Int(element.attributes["points"]! as String)!,
-                            credits: Int(element.attributes["credits"]! as String)!,
-                            sem: element.attributes["sem"]!,
-                            title_cs: nil,
-                            title_en: nil,
-                            tasks: nil)
-                        
-                        var tasks = [Task]()
-                        for item in element.children {
-                            if item.attributes["lang"] == "cs" {
-                                courseStruct.title_cs = item.stringValue
-                            } else if item.attributes["lang"] == "en" {
-                                courseStruct.title_en = item.stringValue
-                            } else if item.tag != "accreditation" {
-                                var task = Task()
-                                task.id = Int(item.attributes["id"]! as String)
-                                task.type = item.attributes["type"]
-                                task.start = item.attributes["start"]
-                                task.end = item.attributes["end"]
-                                task.reg_start = item.attributes["reg_start"]
-                                task.reg_end = item.attributes["reg_end"]
-                                tasks.append(task)
-                                
-                                if let type = task.type {
-                                    if type == "select" {
-                                        let itemDocument = try XMLDocument(string: "\(item)")
-                                        if let itemRoot = itemDocument.root {
-                                            var variants = [Variant]()
-                                            for variant in itemRoot.children {
-                                                var variantStruct = Variant()
-                                                if let id = variant.attributes["id"] {
-                                                    variantStruct.id = Int(id as String)
-                                                }
-                                                if let limit = variant.attributes["limit"] {
-                                                    variantStruct.limit = Int(limit as String)
-                                                }
-                                                if let registered = variant.attributes["registered"] {
-                                                    variantStruct.registered = Int(registered as String)
-                                                }
-                                                if let title = variant.firstChild(tag: "title") {
-                                                    variantStruct.title = title.stringValue
-                                                }
-                                                variants.append(variantStruct)
-                                            } // for variant in itemRoot.children
-                                            print("=====================================================================")
-                                            print("variants: \(variants)")
-                                            print("=====================================================================")
-                                            task.variants = variants
-                                        }
-                                    }
+            let document = try XMLDocument(string: XMLString as String)
+            if let root = document.root {
+                for element in root.children {
+                    var courseStruct = CourseSruct(id: Int(element.attributes["csid"]! as String)!,
+                        abbrv: element.attributes["abbrv"]!,
+                        points: Int(element.attributes["points"]! as String)!,
+                        credits: Int(element.attributes["credits"]! as String)!,
+                        sem: element.attributes["sem"]!,
+                        title_cs: nil,
+                        title_en: nil,
+                        tasks: nil)
+                    
+                    for item in element.children {
+                        if item.attributes["lang"] == "cs" {
+                            courseStruct.title_cs = item.stringValue
+                        } else if item.attributes["lang"] == "en" {
+                            courseStruct.title_en = item.stringValue
+                        } else if item.tag == "item" {
+                            var task = TaskStruct()
+                            task.id = Int(item.attributes["id"]! as String)
+                            task.type = item.attributes["type"]
+                            if let t = item.firstChild(tag: "title") {
+                                task.title = t.stringValue
+                            }
+                            task.start = item.attributes["start"]
+                            task.end = item.attributes["end"]
+                            task.reg_start = item.attributes["reg_start"]
+                            task.reg_end = item.attributes["reg_end"]
+                            
+                            if let type = task.type {
+                                if type == "select" {
+                                    for variant in item.children {
+                                        if variant.tag == "variant" {
+                                            var variantStruct = VariantStruct()
+                                            if let id = variant.attributes["id"] {
+                                                variantStruct.id = Int(id as String)
+                                            }
+                                            if let limit = variant.attributes["limit"] {
+                                                variantStruct.limit = Int(limit as String)
+                                            }
+                                            if let registered = variant.attributes["registered"] {
+                                                variantStruct.registered = Int(registered as String)
+                                            }
+                                            if let title = variant.firstChild(tag: "title") {
+                                                variantStruct.title = title.stringValue
+                                            }
+                                            variants.append(variantStruct)
+                                            
+                                        } // if variant.tag == "variant"
+                                    } // for variant in item.children
+                                    task.variants = variants
+                                    variants.removeAll()
                                 }
                             }
-                        } // for item in element.children
-                        courseStruct.tasks = tasks
-                        courses.append(courseStruct)
-                    } // for element in root.children
-                }
-            } catch let error {
-                print(error)
+                            tasks.append(task)
+                        } // if item.tag == "item"
+                    } // for item in element.children
+                    courseStruct.tasks = tasks
+                    tasks.removeAll()
+                    courses.append(courseStruct)
+                } // for element in root.children
             }
-            return true;
-        } else {
-            return false;
+            printStructs()
+        } catch let error {
+            print(error)
+            return false
         }
+        return true
     }
     
-    func saveData() {
-//        do {
-//            let document = try XMLDocument(string: "" as String)
-//            if let root = document.root {
-//                for element in root.children {
-//                    let courseStruct = CourseShort(id: Int(element.attributes["csid"]! as String)!,
-//                        abbrv: element.attributes["abbrv"]!,
-//                        points: Int(element.attributes["points"]! as String)!,
-//                        credits: Int(element.attributes["credits"]! as String)!,
-//                        sem: element.attributes["sem"]!,
-//                        title_cs: "",
-//                        title_en: "")
-//                    courses.append(courseStruct)
-//                    
-//                    
-//                    let course = NSManagedObject(entity: courseEntity!,insertIntoManagedObjectContext: managedContext) as! Course
-//                    course.csid = NSNumber(integer: Int(element.attributes["csid"]! as String)!)
-//                    course.abbrv = element.attributes["abbrv"]!
-//                    course.sem = element.attributes["sem"]
-//                    course.points = NSNumber(integer: Int(element.attributes["points"]! as String)!)
-//                    course.credits = NSNumber(integer: Int(element.attributes["credits"]! as String)!)
-//                    
-//                    for item in element.children {
-//                        let task = NSManagedObject(entity: taskEntity!, insertIntoManagedObjectContext: managedContext) as! Task
-//                        
-//                        task.parentCourse = course
-//                        
-//                        if item.attributes["lang"] == "cs" {
-//                            task.title = course.title_cs
-//                        } else if item.attributes["lang"] == "en" {
-//                            task.title = course.title_en
-//                        }
-//                        
-//                        if let id = item.attributes["id"] {
-//                            task.id = NSNumber(integer: Int(id as String)!)
-//                        }
-//                        if let type = item.attributes["type"] {
-//                            task.type = type
-//                        }
-//                        if let reg_start = item.attributes["reg_start"] {
-//                            dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
-//                            task.reg_start = dateFormatter.dateFromString(reg_start)
-//                        }
-//                        if let reg_end = item.attributes["reg_end"] {
-//                            dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
-//                            task.reg_end = dateFormatter.dateFromString(reg_end)
-//                        }
-//                        if let start = item.attributes["start"] {
-//                            dateFormatter.dateFormat = "yyyy-MM-dd"
-//                            task.start = dateFormatter.dateFromString(start)
-//                        }
-//                        if let end = item.attributes["end"] {
-//                            dateFormatter.dateFormat = "yyyy-MM-dd"
-//                            task.end = dateFormatter.dateFromString(end)
-//                        }
-//                        
-//                    }
-//                    
-//                    do {
-//                        try managedContext.save()
-//                        courseManagedObjects.append(course)
-//                    } catch let error as NSError  {
-//                        print("Could not save \(error), \(error.userInfo)")
-//                    }
-//                }
-//            }
-//        } catch let error {
-//            print(error)
-//        }
+    /*
+    * Stores current courses = [Course] into Core Data
+    * If courses is empty -> false
+    *
+    */
+    func saveData() -> Bool {
+
+        if !courses.isEmpty {
+            return false
+        }
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        for course in courses {
+            let courseMO = NSEntityDescription.insertNewObjectForEntityForName("Course", inManagedObjectContext: managedContext) as! Course
+            courseMO.csid = course.id
+            courseMO.abbrv = course.abbrv
+            courseMO.sem = course.sem
+            courseMO.points = course.points
+            courseMO.credits = course.credits
+            courseMO.title_cs = course.title_cs
+            courseMO.title_en = course.title_en
+            
+            if !course.tasks!.isEmpty {
+                
+                for task in course.tasks! {
+                    let taskMO = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: managedContext) as! Task
+                    let dateFormater = NSDateFormatter()
+                    
+                    taskMO.parentCourse = courseMO
+                    taskMO.id = task.id
+                    taskMO.type = task.type
+                    taskMO.title = task.title
+                    dateFormater.dateFormat = "yyy-MM-dd"
+                    taskMO.start = dateFormater.dateFromString(task.start!)
+                    taskMO.end = dateFormater.dateFromString(task.end!)
+                    dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                    taskMO.reg_start = dateFormater.dateFromString(task.reg_start!)
+                    taskMO.reg_end = dateFormater.dateFromString(task.reg_end!)
+                    
+                    
+                    if !task.variants!.isEmpty {
+                        for variant in task.variants! {
+                            let variantMO = NSEntityDescription.insertNewObjectForEntityForName("Variant", inManagedObjectContext: managedContext) as! Variant
+                            
+                            variantMO.id = variant.id
+                            variantMO.limit = variant.limit
+                            variantMO.registred = variant.registered
+                            variantMO.title = variant.title
+                            variantMO.parentTask = taskMO
+                            
+                            taskMO.addVariant(variantMO)
+                        }
+                    }
+                    courseMO.addTask(taskMO)
+                }
+            }
+        }
+        do {
+            try managedContext.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+        return true
+    }
+    
+    func printStructs() {
+        print("PRINTING STRUCTS:\n\n\n\n\n\n\n\n")
+        for course in courses {
+            print("title_cs: \(course.title_cs)")
+            print("id: \(course.id)")
+            print("abbrv: \(course.abbrv)")
+            print("sem: \(course.sem)")
+            print("points: \(course.points)")
+            print("credits: \(course.credits)")
+            print("title_en: \(course.title_en)")
+            if let uTasks = course.tasks {
+                for task in uTasks {
+                    print("\ttask title: \(task.title)")
+                    print("\ttask id: \(task.id)")
+                    print("\ttask type: \(task.type)")
+                    print("\ttask start: \(task.start)")
+                    print("\ttask end: \(task.end)")
+                    print("\ttask reg_start: \(task.reg_start)")
+                    print("\ttask reg_end: \(task.reg_end)")
+                    print("\t====================================================================================================")
+                    if let uVariants = task.variants {
+                        for variant in uVariants {
+                            print("\t\tvariant title: \(variant.title)")
+                            print("\t\tvariant id: \(variant.id)")
+                            print("\t\tvariant registered: \(variant.registered)")
+                            print("\t\tvariant limit: \(variant.limit)")
+                            print("\t\t====================================================================================================")
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -279,4 +293,3 @@ public class NotificationManager
         return true;
     }
 }
-

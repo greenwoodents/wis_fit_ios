@@ -195,9 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				4CA6E5491BE42664007491A7 /* DataModel */,
-				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
 				4CA6E5381BE292E7007491A7 /* Cells */,
 				4CA6E5391BE29305007491A7 /* Controllers */,
+				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
 				4CDDDC331BCC187900F96360 /* Main.storyboard */,
 				4CDDDC391BCC187900F96360 /* Assets.xcassets */,
 				4CDDDC361BCC187900F96360 /* WIS.xcdatamodeld */,

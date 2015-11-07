@@ -24,14 +24,15 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     
     
     func fetchResults() {
-        
-        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "Course")
         
         do {
             let results = try managedContext.executeFetchRequest(fetchRequest)
             courses = results as! [NSManagedObject]
+            print(courses)
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -99,7 +100,7 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     func remoteRefresh(notification: NSNotification) {
-        fetchResults()
+//        fetchResults()
         self.tableView.reloadData()
     }
     

@@ -17,6 +17,7 @@ extension Variant {
     @NSManaged var id: NSNumber?
     @NSManaged var limit: NSNumber?
     @NSManaged var registred: NSNumber?
+    @NSManaged var title: String?
     @NSManaged var parentTask: Task?
 
 }

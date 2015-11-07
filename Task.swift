@@ -12,6 +12,14 @@ import CoreData
 @objc(Task)
 class Task: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    func addVariant(value: Variant) {
+        self.mutableSetValueForKey("variants").addObject(value)
+    }
+    
+    func getTaskVariants() -> [Variant] {
+        var variants: [Variant]
+        variants = self.variants!.allObjects as! [Variant]
+        return variants
+    }
 
 }

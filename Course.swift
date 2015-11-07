@@ -10,8 +10,16 @@ import Foundation
 import CoreData
 
 @objc(Course)
-class Course: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
-
+class Course: NSManagedObject
+{
+    func addTask(value: Task) {
+        self.mutableSetValueForKey("tasks").addObject(value)
+    }
+    
+    func getCourseTasks() -> [Task] {
+        var tasks: [Task]
+        tasks = self.tasks!.allObjects as! [Task]
+        return tasks
+    }
+    
 }

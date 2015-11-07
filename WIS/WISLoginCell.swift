@@ -108,7 +108,9 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                             defaults.synchronize()
                             
                             if notifManager.parse(XMLstring as! String) {
-                                notifManager.updateCoursesAndTasks(XMLstring as! String)
+                                notifManager.printStructs()
+                                //notifManager.saveData()
+//                                notifManager.updateCoursesAndTasks(XMLstring as! String)
                             }
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)

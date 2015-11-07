@@ -32,12 +32,13 @@
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="limit" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="registred" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="parentTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="variants" inverseEntity="Task" syncable="YES"/>
     </entity>
     <elements>
         <element name="Course" positionX="-20" positionY="-18" width="128" height="163"/>
+        <element name="NotificationStack" positionX="250" positionY="-297" width="128" height="120"/>
         <element name="Task" positionX="196" positionY="-18" width="128" height="178"/>
-        <element name="Variant" positionX="412" positionY="59" width="128" height="103"/>
-        <element name="NotificationStack" positionX="207" positionY="63" width="128" height="120"/>
+        <element name="Variant" positionX="412" positionY="59" width="128" height="118"/>
     </elements>
 </model>
