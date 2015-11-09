@@ -18,90 +18,84 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     
     //var XML: Result<AnyObject>? = nil
     var managedObjectContext: NSManagedObjectContext!
-    var courses = [NSManagedObject]()
+    var courses = [Course]()
     var selectedIndexPath: NSIndexPath?
     var currentCell: WISLoginCell? = nil
+    var displayLogin: Bool = true
     
     
-    func fetchResults() {
+    @IBOutlet var logoutButton: UIBarButtonItem!
+    
+    
+    @IBAction func logout(sender: UIBarButtonItem) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let loggedIn = defaults.objectForKey("loggedIn") as? Bool {
+            if loggedIn {
+                let alert = UIAlertController(title: "Odhlásit se", message: "Chceš se opravdu odhlásit?", preferredStyle: .Alert)
+                
+                alert.addAction(UIAlertAction(title: "Ano", style: .Default, handler: { action in
+                    defaults.setBool(false, forKey: "loggedIn")
+                    defaults.setObject("", forKey: "login")
+                    defaults.setObject("", forKey: "passwd")
+                    self.courses.removeAll()
+                    dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+                        NotificationManager().deleteCoreData() // TODO: nastav ako asynchronne vlakno, lebo velmi spomaluje UI
+                    }
+                    self.navigationItem.rightBarButtonItem = nil
+                    self.displayLogin = true
+                    self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Left)
+                }))
+                alert.addAction(UIAlertAction(title: "Ne", style: .Cancel, handler: { action in }))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        if defaults.boolForKey("loggedIn") {
+            displayLogin = false
+            self.navigationItem.rightBarButtonItem = logoutButton
+        } else {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         
         let fetchRequest = NSFetchRequest(entityName: "Course")
-        
         do {
             let results = try managedContext.executeFetchRequest(fetchRequest)
-            courses = results as! [NSManagedObject]
-            print(courses)
+            courses = results as! [Course]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
     }
     
-    
-    @IBAction func logout(sender: AnyObject) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let loggedIn = defaults.objectForKey("loggedIn") as? Bool {
-            if loggedIn {
-                let alert = UIAlertController(title: "Odhlásit se", message: "Chceš se opravdu odhlásit?", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Ano", style: UIAlertActionStyle.Default, handler: { action in
-                    switch action.style {
-                    case .Default:
-                        defaults.setBool(false, forKey: "loggedIn")
-                        defaults.setObject("", forKey: "login")
-                        defaults.setObject("", forKey: "passwd")
-                        break
-                    case .Cancel:
-                        print("cancel")
-                        break
-                    default:
-                        print("default")
-                        break
-                    }
-                }))
-                alert.addAction(UIAlertAction(title: "Ne", style: UIAlertActionStyle.Cancel, handler: { action in
-                    switch action.style {
-                    case .Default:
-                        defaults.setBool(false, forKey: "loggedIn")
-                        defaults.setObject("", forKey: "login")
-                        defaults.setObject("", forKey: "passwd")
-                        break
-                    case .Cancel:
-                        print("cancel")
-                        break
-                    default:
-                        print("default")
-                        break
-                    }
-                }))
-                self.presentViewController(alert, animated: true, completion: nil)
-            } else {
-                let alert = UIAlertController(title: "Nejsi přihlásen", message: "", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Přihlásit se", style: .Default, handler: { action in
-                    print("expand cell and select login textfield")
-                }))
-                alert.addAction(UIAlertAction(title: "Zrušit", style: .Cancel, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-                
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteRefresh:", name: "remoteRefreshID", object: nil)
         
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        
+        
     }
     
     func remoteRefresh(notification: NSNotification) {
-//        fetchResults()
-        self.tableView.reloadData()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        displayLogin = false
+        
+        let fetchRequest = NSFetchRequest(entityName: "Course")
+        do {
+            let results = try managedContext.executeFetchRequest(fetchRequest)
+            courses = results as! [Course]
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        self.navigationItem.rightBarButtonItem = logoutButton
+        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Left)
     }
     
     
@@ -113,31 +107,22 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2 + courses.count;
+        if displayLogin {
+            return 1;
+        } else {
+            return courses.count
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
+        if displayLogin {
             let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
             return cell
-            
-        } else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
-            cell.pointsForCourse.text = "ahoj"
-            return cell
-            
-        } else if indexPath.row > 1 {
-            let course = courses[indexPath.row - 2]
-            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
-            cell.pointsForCourse.text = "\(course.valueForKey("abbrv")!) - \(course.valueForKey("points")!)"
-            return cell
-            
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
+            cell.pointsForCourse.text = courses[indexPath.row].title_cs
             return cell
         }
-
-        
     }
     
     
@@ -170,15 +155,19 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
-            (cell as! WISLoginCell).watchFrameChanges()
+        if displayLogin {
+            if let c = cell as? WISLoginCell {
+                c.ignoreFrameChanges()
+            }
         }
         
     }
     
     override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
-            (cell as! WISLoginCell).ignoreFrameChanges()
+        if displayLogin {
+            if let c = cell as? WISLoginCell {
+                c.ignoreFrameChanges()
+            }
         }
     }
     

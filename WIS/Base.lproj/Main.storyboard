@@ -131,6 +131,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="logoutButton" destination="f6e-TL-dsz" id="F4x-Uf-ysO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dx8-8A-qvN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

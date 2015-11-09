@@ -15,6 +15,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
     private var pswd = ""
     var buttonClicked = true
     var cellAdded = false
+    var type = "login"
     
     let MyKeychainWrapper = KeychainWrapper()
     
@@ -48,7 +49,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
     // MARK: Expand cell
     
     class var expandedHeight: CGFloat { get { return 120 } }
-    class var defaultHeight: CGFloat  { get { return 44  } }
+    class var defaultHeight: CGFloat  { get { return 37  } }
     
     func checkHeight() {
         login.hidden = (frame.size.height < WISLoginCell.expandedHeight)
@@ -106,11 +107,13 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                             defaults.setObject(XMLstring, forKey: "xml")
                             defaults.setBool(true, forKey: "loggedIn")
                             defaults.synchronize()
-                            
+                            self.login.text?.removeAll()
+                            self.passwd.text?.removeAll()
                             if notifManager.parse(XMLstring as! String) {
-                                notifManager.printStructs()
-                                //notifManager.saveData()
-//                                notifManager.updateCoursesAndTasks(XMLstring as! String)
+//                                notifManager.printStructs()
+                                
+                                notifManager.saveData()
+                                notifManager.update("as")
                             }
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)

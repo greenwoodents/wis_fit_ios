@@ -6,6 +6,15 @@
 //  Copyright © 2015 Tomas Scavnicky. All rights reserved.
 //
 
+
+/*
+
+http://matthewmorey.com/core-data-batch-updates/
+
+prepis pristup do Core Data tak aby nespomaloval hlavne vlakno
+
+*/
+
 import Foundation
 import CoreData
 import Fuzi
@@ -119,7 +128,6 @@ public class NotificationManager
                     courses.append(courseStruct)
                 } // for element in root.children
             }
-            printStructs()
         } catch let error {
             print(error)
             return false
@@ -134,7 +142,7 @@ public class NotificationManager
     */
     func saveData() -> Bool {
 
-        if !courses.isEmpty {
+        if courses.isEmpty {
             return false
         }
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -158,27 +166,39 @@ public class NotificationManager
                     
                     taskMO.parentCourse = courseMO
                     taskMO.id = task.id
-                    taskMO.type = task.type
-                    taskMO.title = task.title
+                    if let type = task.type {
+                        taskMO.type = type
+                    }
+                    if let title = task.title {
+                        taskMO.title = title
+                    }
                     dateFormater.dateFormat = "yyy-MM-dd"
-                    taskMO.start = dateFormater.dateFromString(task.start!)
-                    taskMO.end = dateFormater.dateFromString(task.end!)
+                    if let start = task.start {
+                        taskMO.start = dateFormater.dateFromString(start)
+                    }
+                    if let end = task.end {
+                        taskMO.end = dateFormater.dateFromString(end)
+                    }
                     dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                    taskMO.reg_start = dateFormater.dateFromString(task.reg_start!)
-                    taskMO.reg_end = dateFormater.dateFromString(task.reg_end!)
-                    
-                    
-                    if !task.variants!.isEmpty {
-                        for variant in task.variants! {
-                            let variantMO = NSEntityDescription.insertNewObjectForEntityForName("Variant", inManagedObjectContext: managedContext) as! Variant
-                            
-                            variantMO.id = variant.id
-                            variantMO.limit = variant.limit
-                            variantMO.registred = variant.registered
-                            variantMO.title = variant.title
-                            variantMO.parentTask = taskMO
-                            
-                            taskMO.addVariant(variantMO)
+                    if let reg_start = task.reg_start {
+                        taskMO.reg_start = dateFormater.dateFromString(reg_start)
+                    }
+                    if let reg_end = task.reg_end {
+                        taskMO.reg_end = dateFormater.dateFromString(reg_end)
+                    }
+                    if let _ = task.variants {
+                        if !task.variants!.isEmpty {
+                            for variant in task.variants! {
+                                let variantMO = NSEntityDescription.insertNewObjectForEntityForName("Variant", inManagedObjectContext: managedContext) as! Variant
+                                
+                                variantMO.id = variant.id
+                                variantMO.limit = variant.limit
+                                variantMO.registred = variant.registered
+                                variantMO.title = variant.title
+                                variantMO.parentTask = taskMO
+                                
+                                taskMO.addVariant(variantMO)
+                            }
                         }
                     }
                     courseMO.addTask(taskMO)
@@ -193,71 +213,158 @@ public class NotificationManager
         return true
     }
     
-    func printStructs() {
-        print("PRINTING STRUCTS:\n\n\n\n\n\n\n\n")
-        for course in courses {
-            print("title_cs: \(course.title_cs)")
-            print("id: \(course.id)")
-            print("abbrv: \(course.abbrv)")
-            print("sem: \(course.sem)")
-            print("points: \(course.points)")
-            print("credits: \(course.credits)")
-            print("title_en: \(course.title_en)")
-            if let uTasks = course.tasks {
-                for task in uTasks {
-                    print("\ttask title: \(task.title)")
-                    print("\ttask id: \(task.id)")
-                    print("\ttask type: \(task.type)")
-                    print("\ttask start: \(task.start)")
-                    print("\ttask end: \(task.end)")
-                    print("\ttask reg_start: \(task.reg_start)")
-                    print("\ttask reg_end: \(task.reg_end)")
-                    print("\t====================================================================================================")
-                    if let uVariants = task.variants {
-                        for variant in uVariants {
-                            print("\t\tvariant title: \(variant.title)")
-                            print("\t\tvariant id: \(variant.id)")
-                            print("\t\tvariant registered: \(variant.registered)")
-                            print("\t\tvariant limit: \(variant.limit)")
-                            print("\t\t====================================================================================================")
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 
     /**
     * Updates Course and Task entities in Core Data
-    * Some Uprades were made -> true
-    * No updates were made -> false
-    * TODO: implement
+    * Some Uprades were made -> true - NOT IMPLEMENTED
+    * No updates were made -> false - NOT IMPLEMENTED
     */
-    func updateCoursesAndTasks(Courses: String) -> Bool {//[CourseShort]) -> Bool {
+    func update(Courses: String) -> Bool {
         
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
-        let fetchRequest = NSFetchRequest(entityName: "Course")
+        for course in courses {
+            let fetchRequest = NSFetchRequest(entityName: "Course")
+            fetchRequest.predicate = NSPredicate(format: "csid == %@", "\(course.id)")
+            
+            do {
+                let c = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+                c[0].setValue(course.points, forKey: "points")
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+            }
+            // VYRIESIT NOVE TASKY
+            if let _ = course.tasks {
+                for task in course.tasks! {
+                    
+                    let fetchRequest = NSFetchRequest(entityName: "Task")
+                    fetchRequest.predicate = NSPredicate(format: "id == %@", "\(task.id!)")
+                    do {
+                        let dateFormater = NSDateFormatter()
+                        dateFormater.dateFormat = "yyy-MM-dd"
+                        let t = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+                        if let end = task.end {
+                            t[0].setValue(dateFormater.dateFromString(end), forKey: "end")
+                        }
+                        if let start = task.start {
+                            t[0].setValue(dateFormater.dateFromString(start), forKey: "start")
+                        }
+                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                        if let reg_end = task.reg_end {
+                            t[0].setValue(dateFormater.dateFromString(reg_end), forKey: "start")
+                        }
+                        if let reg_start = task.reg_start {
+                            t[0].setValue(dateFormater.dateFromString(reg_start), forKey: "start")
+                        }
+                        if let title = task.title {
+                            t[0].setValue("\(title)", forKey: "title")
+                        }
+                        // PRIDAT UPDATE NA task.type A NEJAK VYRIESIT AKO POTOM VYTVORIT NOVU RELACIU
+                    } catch let error as NSError {
+                        print("Could not fetch \(error), \(error.userInfo)")
+                    }
+                    
+                    if let _ = task.variants {
+                        for variant in task.variants! {
+                            let fetchRequest = NSFetchRequest(entityName: "Variant")
+                            fetchRequest.predicate = NSPredicate(format: "id == %@", "\(variant.id!)")
+                            do {
+                                let v = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+                                
+                                if let limit = variant.limit {
+                                    v[0].setValue(limit, forKey: "limit")
+                                }
+                                if let registered = variant.registered {
+                                    v[0].setValue(registered, forKey: "registred")
+                                }
+                                if let title = variant.title {
+                                    v[0].setValue(title, forKey: "title")
+                                }
+                            } catch let error as NSError {
+                                print("Could not fetch \(error), \(error.userInfo)")
+                            }
+                        } // for variant
+                    } // if let task.variants
+                } // for task
+            } // if let course.tasks
+        } // for course
         
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            courseManagedObjects = results as! [NSManagedObject]
+            try managedContext.save()
         } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+            print(error)
         }
-        
-//        for course in courseManagedObjects {
-//            if let abbrv = course.valueForKey("abbrv") {
-//                print(abbrv)
-//            }
-//            
-//        }
-        
         
         
         
         return true;
     }
+    
+    
+    func deleteCoreData() {
+       
+        
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        var fetchRequest = NSFetchRequest(entityName: "Variant")
+        
+        do {
+            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Variant] {
+                
+                if fetchResults.count != 0 {
+                    var i = fetchResults.count
+                    
+                    for i ; i != 0 ; i-- {
+                        let delete = fetchResults[i - 1]
+                        managedContext.deleteObject(delete)
+                        try managedContext.save()
+                    }
+                }
+            }
+        } catch let error as NSError {
+            print(error)
+        }
+        
+        fetchRequest = NSFetchRequest(entityName: "Task")
+        
+        do {
+            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Task] {
+                
+                if fetchResults.count != 0 {
+                    var i = fetchResults.count
+                    
+                    for i ; i != 0 ; i-- {
+                        let delete = fetchResults[i - 1]
+                        managedContext.deleteObject(delete)
+                        try managedContext.save()
+                    }
+                }
+            }
+        } catch let error as NSError {
+            print(error)
+        }
+        
+        fetchRequest = NSFetchRequest(entityName: "Course")
+        
+        do {
+            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Course] {
+                
+                if fetchResults.count != 0 {
+                    var i = fetchResults.count
+                    
+                    for i ; i != 0 ; i-- {
+                        let delete = fetchResults[i - 1]
+                        managedContext.deleteObject(delete)
+                        try managedContext.save()
+                    }
+                }
+            }
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
+    
     
     /**
     * Creates notification stack
@@ -292,4 +399,63 @@ public class NotificationManager
     func updateNotificationStack(XMLString: String) -> Bool {
         return true;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    func printStructs() {
+        print("PRINTING STRUCTS:\n\n\n\n\n\n\n\n")
+        for course in courses {
+            print("title_cs: \(course.title_cs)")
+            print("id: \(course.id)")
+            print("abbrv: \(course.abbrv)")
+            print("sem: \(course.sem)")
+            print("points: \(course.points)")
+            print("credits: \(course.credits)")
+            print("title_en: \(course.title_en)")
+            if let uTasks = course.tasks {
+                for task in uTasks {
+                    print("\ttask title: \(task.title)")
+                    print("\ttask id: \(task.id)")
+                    print("\ttask type: \(task.type)")
+                    print("\ttask start: \(task.start)")
+                    print("\ttask end: \(task.end)")
+                    print("\ttask reg_start: \(task.reg_start)")
+                    print("\ttask reg_end: \(task.reg_end)")
+                    print("\t====================================================================================================")
+                    if let uVariants = task.variants {
+                        for variant in uVariants {
+                            print("\t\tvariant title: \(variant.title)")
+                            print("\t\tvariant id: \(variant.id)")
+                            print("\t\tvariant registered: \(variant.registered)")
+                            print("\t\tvariant limit: \(variant.limit)")
+                            print("\t\t====================================================================================================")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 }
