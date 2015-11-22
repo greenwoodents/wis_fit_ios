@@ -10,12 +10,15 @@
         <attribute name="title_en" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="parentCourse" inverseEntity="Task" syncable="YES"/>
     </entity>
-    <entity name="NotificationStack" syncable="YES">
+    <entity name="NotificationStack" representedClassName=".NotificationStack" syncable="YES">
+        <attribute name="course" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="when" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="what" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="when" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
@@ -37,7 +40,7 @@
     </entity>
     <elements>
         <element name="Course" positionX="-20" positionY="-18" width="128" height="163"/>
-        <element name="NotificationStack" positionX="250" positionY="-297" width="128" height="120"/>
+        <element name="NotificationStack" positionX="151" positionY="-207" width="128" height="165"/>
         <element name="Task" positionX="196" positionY="-18" width="128" height="178"/>
         <element name="Variant" positionX="412" positionY="59" width="128" height="118"/>
     </elements>

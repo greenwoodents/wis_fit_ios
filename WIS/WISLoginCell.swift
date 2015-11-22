@@ -113,10 +113,12 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
 //                                notifManager.printStructs()
                                 
                                 notifManager.saveData()
-                                notifManager.update("as")
+//                                    notifManager.update("as") //asdasdasd!!!!!! TOTO UPRAVIT
+                                    notifManager.createNotificationStack()
+                                NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
                             }
                             
-                            NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
+                            
                             
                         }
                     }

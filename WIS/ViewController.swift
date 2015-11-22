@@ -19,6 +19,7 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     //var XML: Result<AnyObject>? = nil
     var managedObjectContext: NSManagedObjectContext!
     var courses = [Course]()
+    var notifs = [NotificationStack]()
     var selectedIndexPath: NSIndexPath?
     var currentCell: WISLoginCell? = nil
     var displayLogin: Bool = true
@@ -63,10 +64,11 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
             self.navigationItem.rightBarButtonItem = nil
         }
         
-        let fetchRequest = NSFetchRequest(entityName: "Course")
+        let fetchRequest = NSFetchRequest(entityName: "NotificationStack")
+        fetchRequest.predicate = NSPredicate(format: "when >= %@", NSDate())
         do {
             let results = try managedContext.executeFetchRequest(fetchRequest)
-            courses = results as! [Course]
+            notifs = results as! [NotificationStack]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -82,14 +84,17 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     func remoteRefresh(notification: NSNotification) {
+        print("cau2")
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         displayLogin = false
         
-        let fetchRequest = NSFetchRequest(entityName: "Course")
+        let fetchRequest = NSFetchRequest(entityName: "NotificationStack")
+        fetchRequest.predicate = NSPredicate(format: "when >= %@", NSDate())
         do {
             let results = try managedContext.executeFetchRequest(fetchRequest)
-            courses = results as! [Course]
+            notifs = results as! [NotificationStack]
+//            courses = results as! [Course]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -110,7 +115,8 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
         if displayLogin {
             return 1;
         } else {
-            return courses.count
+            print(notifs.count)
+            return notifs.count
         }
     }
     
@@ -120,18 +126,28 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
-            cell.pointsForCourse.text = courses[indexPath.row].title_cs
+            cell.pointsForCourse.text = "\(notifs[indexPath.row].course!): \(notifs[indexPath.row].when!)" //\(notifs[indexPath.row].course!):
+            let swipeRecognizer = UISwipeGestureRecognizer.init(target: self, action: "deleteCell:")
+            swipeRecognizer.direction = .Left
+            cell.addGestureRecognizer(swipeRecognizer)
             return cell
         }
     }
     
-    
+    func deleteCell(gesture: UIGestureRecognizer) {
+        print(".")
+    }
     // MARK: Cell expansion
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let previousIndexPath = selectedIndexPath
         
+        
         currentCell = tableView.cellForRowAtIndexPath(indexPath) as? WISLoginCell
+        
+        if let cell = currentCell {
+            cell.login.becomeFirstResponder()
+        }
         
         if indexPath == previousIndexPath {
             selectedIndexPath = nil
@@ -180,6 +196,18 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
         }
     }
     
+    // MARK: Gesture recognizer
+    
+//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+//        if let _ = gestureRecognizer.view as? UITableViewCell {
+//            print("B")
+//            if (gestureRecognizer as! UISwipeGestureRecognizer).direction == UISwipeGestureRecognizerDirection.Right {
+//                print("A")
+//                return true
+//            }
+//        }
+//        return false
+//    }
     
 }
 
