@@ -35,6 +35,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
         login.tag = 1
         passwd.tag = 2  //mozem vymazat
         passwd.secureTextEntry = true
+        
         // Initialization code
     }
 
@@ -91,37 +92,39 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
         } else if textField == passwd {
             textField.resignFirstResponder()
             if login.text! != "" && passwd.text! != "" {
-                
-                NetworkManager.sharedInstace.defaultManager.request(.GET, "https://wis.fit.vutbr.cz/FIT/st/get-coursesx.php") //presunut do ViewController a
-                    .authenticate(user: login.text!, password: passwd.text!)
-                    .response { response in
-                        if let _ = response.3 {
-                            print("error")
-                        } else {
-                            let notifManager = NotificationManager()
-                            let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
-                            
-                            let defaults = NSUserDefaults.standardUserDefaults()
-                            defaults.setObject(self.login.text!, forKey: "login")
-                            defaults.setObject(self.passwd.text!, forKey: "passwd")
-                            defaults.setObject(XMLstring, forKey: "xml")
-                            defaults.setBool(true, forKey: "loggedIn")
-                            defaults.synchronize()
-                            self.login.text?.removeAll()
-                            self.passwd.text?.removeAll()
-                            if notifManager.parse(XMLstring as! String) {
-//                                notifManager.printStructs()
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+                    NetworkManager.sharedInstace.defaultManager.request(.GET, "https://wis.fit.vutbr.cz/FIT/st/get-coursesx.php") //presunut do ViewController a
+                        .authenticate(user: self.login.text!, password: self.passwd.text!)
+                        .response { response in
+                            if let _ = response.3 {
+                                ShakeAnimation.animate(self)
+                                print("error")
+                            } else {
+                                let notifManager = NotificationManager()
+                                let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
                                 
-                                notifManager.saveData()
-//                                    notifManager.update("as") //asdasdasd!!!!!! TOTO UPRAVIT
-                                    notifManager.createNotificationStack()
-                                NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
+                                let defaults = NSUserDefaults.standardUserDefaults()
+                                defaults.setObject(self.login.text!, forKey: "login")
+                                defaults.setObject(self.passwd.text!, forKey: "passwd")
+                                defaults.setObject(XMLstring, forKey: "xml")
+                                defaults.setBool(true, forKey: "loggedIn")
+                                defaults.synchronize()
+                                self.login.text?.removeAll()
+                                self.passwd.text?.removeAll()
+                                if notifManager.parse(XMLstring as! String) {
+    //                                notifManager.printStructs()
+                                    
+                                    notifManager.saveData()
+    //                                    notifManager.update("as") //asdasdasd!!!!!! TOTO UPRAVIT
+                                        notifManager.createNotificationStack()
+                                    NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
+                                }
                             }
-                            
-                            
-                            
                         }
-                    }
+                } // dispatch end
+                
+            } else {
+                ShakeAnimation.animate(self)
             }
         }
         return true

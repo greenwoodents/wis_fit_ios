@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CB09C2C8CD47F3AFD8ECF2C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E0F201B32E58021EC5FC9 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3CB09C2C8CD47F3AFD8ECF2C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E0F201B32E58021EC5FC9 /* Pods.framework */; };
 		4C41CE541BF1198200133A5F /* SimpleNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */; };
-		4CA6E5371BE292E2007491A7 /* PointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5361BE292E2007491A7 /* PointsCell.swift */; };
+		4C8EC6361C02871F00CB8980 /* FBLoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */; };
+		4C9411441C1B7C1A00C6279D /* ShakeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */; };
 		4CA6E53C1BE4145D007491A7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */; };
 		4CA6E5431BE421EE007491A7 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */; };
 		4CA6E5441BE421EE007491A7 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53E1BE421EE007491A7 /* Task.swift */; };
@@ -28,6 +29,7 @@
 		4CDDDC3D1BCC187900F96360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */; };
 		4CDDDC481BCC187900F96360 /* WISTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC471BCC187900F96360 /* WISTests.swift */; };
 		4CDDDC531BCC187A00F96360 /* WISUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC521BCC187A00F96360 /* WISUITests.swift */; };
+		4CF73D9D1C0DCC260085D6A9 /* SelectNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */; };
 		4CFD54C71BF17316000EF301 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C61BF17316000EF301 /* Reachability.swift */; };
 		4CFD54CA1BF22253000EF301 /* NotificationStack+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C81BF22253000EF301 /* NotificationStack+CoreDataProperties.swift */; };
 		4CFD54CB1BF22253000EF301 /* NotificationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C91BF22253000EF301 /* NotificationStack.swift */; };
@@ -55,7 +57,8 @@
 
 /* Begin PBXFileReference section */
 		4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleNotificationCell.swift; sourceTree = "<group>"; };
-		4CA6E5361BE292E2007491A7 /* PointsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsCell.swift; sourceTree = "<group>"; };
+		4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLoginCell.swift; sourceTree = "<group>"; };
+		4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShakeAnimation.swift; sourceTree = "<group>"; };
 		4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CA6E53E1BE421EE007491A7 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -64,7 +67,7 @@
 		4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Variant+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CA6E5421BE421EE007491A7 /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
 		4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
-		4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = "<group>"; };
+		4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		4CC040781BCD84DF0067A54E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4CC0407A1BCD89190067A54E /* cacert.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = cacert.cer; sourceTree = SOURCE_ROOT; };
 		4CDDDC2C1BCC187900F96360 /* WIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +84,7 @@
 		4CDDDC4E1BCC187A00F96360 /* WISUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WISUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDDDC521BCC187A00F96360 /* WISUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WISUITests.swift; sourceTree = "<group>"; };
 		4CDDDC541BCC187A00F96360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationCell.swift; sourceTree = "<group>"; };
 		4CFD54C61BF17316000EF301 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		4CFD54C81BF22253000EF301 /* NotificationStack+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationStack+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CFD54C91BF22253000EF301 /* NotificationStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStack.swift; sourceTree = "<group>"; };
@@ -131,10 +135,11 @@
 		4CA6E5381BE292E7007491A7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */,
+				4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */,
 				4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */,
+				4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */,
 				4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */,
-				4CA6E5361BE292E2007491A7 /* PointsCell.swift */,
+				4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -188,7 +193,6 @@
 				4CDDDC2D1BCC187900F96360 /* Products */,
 				BD1AD959480319D1F273B556 /* Pods */,
 				017AC00ABC01D9DD4A383124 /* Frameworks */,
-				4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -205,14 +209,16 @@
 		4CDDDC2E1BCC187900F96360 /* WIS */ = {
 			isa = PBXGroup;
 			children = (
+				4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */,
 				4CA6E5491BE42664007491A7 /* DataModel */,
 				4CA6E5381BE292E7007491A7 /* Cells */,
 				4CA6E5391BE29305007491A7 /* Controllers */,
 				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
 				4CFD54C61BF17316000EF301 /* Reachability.swift */,
+				4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */,
 				4CDDDC331BCC187900F96360 /* Main.storyboard */,
-				4CDDDC391BCC187900F96360 /* Assets.xcassets */,
 				4CDDDC361BCC187900F96360 /* WIS.xcdatamodeld */,
+				4CDDDC391BCC187900F96360 /* Assets.xcassets */,
 				4CA6E53A1BE29338007491A7 /* Other */,
 			);
 			path = WIS;
@@ -431,8 +437,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C8EC6361C02871F00CB8980 /* FBLoginCell.swift in Sources */,
 				4CA6E5461BE421EE007491A7 /* Course.swift in Sources */,
-				4CA6E5371BE292E2007491A7 /* PointsCell.swift in Sources */,
 				4C41CE541BF1198200133A5F /* SimpleNotificationCell.swift in Sources */,
 				4CFD54CA1BF22253000EF301 /* NotificationStack+CoreDataProperties.swift in Sources */,
 				4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */,
@@ -442,7 +448,9 @@
 				4CA6E5441BE421EE007491A7 /* Task.swift in Sources */,
 				4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */,
 				4CA6E54B1BE78A6D007491A7 /* NotificationCell.swift in Sources */,
+				4C9411441C1B7C1A00C6279D /* ShakeAnimation.swift in Sources */,
 				4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */,
+				4CF73D9D1C0DCC260085D6A9 /* SelectNotificationCell.swift in Sources */,
 				4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */,
 				4CDDDC381BCC187900F96360 /* WIS.xcdatamodeld in Sources */,
 				4CFF61AA1BDB9BBA00667FE8 /* WISLoginCell.swift in Sources */,
@@ -595,7 +603,7 @@
 				INFOPLIST_FILE = WIS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.tomasscavnicky.WIS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomasscavnicky.dev.WIS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
@@ -612,7 +620,7 @@
 				INFOPLIST_FILE = WIS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.tomasscavnicky.WIS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomasscavnicky.dev.WIS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";

@@ -11,19 +11,36 @@ import Fuzi
 import Alamofire
 import CoreData
 import Foundation
+import MGSwipeTableCell
 
 class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResultsControllerDelegate {
     
-    
-    
-    //var XML: Result<AnyObject>? = nil
-    var managedObjectContext: NSManagedObjectContext!
-    var courses = [Course]()
-    var notifs = [NotificationStack]()
     var selectedIndexPath: NSIndexPath?
+    var variants = [Variant]()
     var currentCell: WISLoginCell? = nil
-    var displayLogin: Bool = true
+    var loggedIn: Bool {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let tmpLoggedIn = defaults.boolForKey("loggedIn")
+        return tmpLoggedIn
+    }
     
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        let single = "single"
+        let select = "select"
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "NotificationStack")
+        let primarySortDescriptor = NSSortDescriptor(key: "type", ascending: true)
+        let secondarySortDescriptor = NSSortDescriptor(key: "course", ascending: true)
+        fetchRequest.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
+        fetchRequest.predicate = NSPredicate(format: "(type = %@ or type = %@) AND (when >= %@) AND (when <= %@) ", single, select, NSDate(), NSDate().dateByAddingTimeInterval(60*60*24*7))
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+            managedObjectContext: managedContext,
+            sectionNameKeyPath: "type",
+            cacheName: nil)
+        frc.delegate = self
+        return frc
+    }()
     
     @IBOutlet var logoutButton: UIBarButtonItem!
     
@@ -38,13 +55,13 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
                     defaults.setBool(false, forKey: "loggedIn")
                     defaults.setObject("", forKey: "login")
                     defaults.setObject("", forKey: "passwd")
-                    self.courses.removeAll()
+                    defaults.synchronize()
                     dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
-                        NotificationManager().deleteCoreData() // TODO: nastav ako asynchronne vlakno, lebo velmi spomaluje UI
+                        NotificationManager().deleteCoreData()
                     }
                     self.navigationItem.rightBarButtonItem = nil
-                    self.displayLogin = true
-                    self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Left)
+                    
+                    self.tableView.reloadData()
                 }))
                 alert.addAction(UIAlertAction(title: "Ne", style: .Cancel, handler: { action in }))
                 self.presentViewController(alert, animated: true, completion: nil)
@@ -53,161 +70,199 @@ class ViewController: UITableViewController, UITextFieldDelegate, NSFetchedResul
     }
     
     override func viewWillAppear(animated: Bool) {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let defaults = NSUserDefaults.standardUserDefaults()
+        tableView.tableFooterView = UIView.init(frame: CGRectZero)
 
-        if defaults.boolForKey("loggedIn") {
-            displayLogin = false
+        if loggedIn {
             self.navigationItem.rightBarButtonItem = logoutButton
         } else {
             self.navigationItem.rightBarButtonItem = nil
-        }
-        
-        let fetchRequest = NSFetchRequest(entityName: "NotificationStack")
-        fetchRequest.predicate = NSPredicate(format: "when >= %@", NSDate())
-        do {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            notifs = results as! [NotificationStack]
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "remoteRefresh:", name: "remoteRefreshID", object: nil)
+        if loggedIn {
+            self.refreshControl = UIRefreshControl()
+            self.refreshControl!.addTarget(self, action: "remoteRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+            self.tableView.addSubview(refreshControl!)
+        }
         
-        
-        
-        
+        do {
+            try self.fetchedResultsController.performFetch()
+        } catch {
+            print(error)
+        }
+        self.tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        let bgImageView = UIImageView(image: UIImage(named: "fit11.png")!)
+        self.view.superview!.insertSubview(bgImageView, belowSubview: self.view)
     }
     
     func remoteRefresh(notification: NSNotification) {
-        print("cau2")
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        displayLogin = false
-        
-        let fetchRequest = NSFetchRequest(entityName: "NotificationStack")
-        fetchRequest.predicate = NSPredicate(format: "when >= %@", NSDate())
-        do {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            notifs = results as! [NotificationStack]
-//            courses = results as! [Course]
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+        if loggedIn {
+            do {
+                try self.fetchedResultsController.performFetch()
+            } catch {
+                print(error)
+            }
+            self.navigationItem.rightBarButtonItem = logoutButton
+            self.tableView.reloadData()
         }
-        
-        self.navigationItem.rightBarButtonItem = logoutButton
-        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Left)
     }
-    
-    
     
     // MARK: Tableview controller methods
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if loggedIn {
+            if let sections = fetchedResultsController.sections {
+                return sections.count
+            }
+        }
         return 1;
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if displayLogin {
-            return 1;
+        if loggedIn {
+            if let sections = fetchedResultsController.sections {
+                let currentSection = sections[section]
+                if section == 0 {
+                    print("variants count: \(variants.count)")
+                    
+                    return currentSection.numberOfObjects + variants.count
+                } else {
+                    print("SECTION = 1")
+                    return currentSection.numberOfObjects
+                }
+            } else {
+                return 1
+            }
         } else {
-            print(notifs.count)
-            return notifs.count
+            return 1
         }
     }
+    
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if displayLogin {
+        let formatter = NSDateFormatter()
+        formatter.timeStyle = .MediumStyle
+        formatter.dateStyle = .MediumStyle
+        if loggedIn {
+            let cell = tableView.dequeueReusableCellWithIdentifier("notification", forIndexPath: indexPath) as! SimpleNotificationCell
+            let notif = fetchedResultsController.objectAtIndexPath(indexPath) as! NotificationStack
+            cell.textLabel!.text = "\(notif.course!): \(notif.title!)"
+            
+            cell.leftButtons = [MGSwipeButton(title: "", icon: UIImage(named: "check.png"), backgroundColor: UIColor.greenColor())]
+            cell.leftExpansion.buttonIndex = 0
+            cell.leftExpansion.fillOnTrigger = true
+            cell.leftSwipeSettings.transition = .ClipCenter
+            
+//            cell.detailTextLabel!.text = formatter.stringFromDate(notif.when!)
+            return cell
+        } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath) as! PointsCell
-            cell.pointsForCourse.text = "\(notifs[indexPath.row].course!): \(notifs[indexPath.row].when!)" //\(notifs[indexPath.row].course!):
-            let swipeRecognizer = UISwipeGestureRecognizer.init(target: self, action: "deleteCell:")
-            swipeRecognizer.direction = .Left
-            cell.addGestureRecognizer(swipeRecognizer)
-            return cell
         }
+//        if loggedIn {
+//            
+//            
+//            
+//            
+//
+//            if let type = notifs[indexPath.row].type {
+//                if type == "select" {
+//                    let cell = tableView.dequeueReusableCellWithIdentifier("select_notification", forIndexPath: indexPath) as! SelectNotificationCell
+//                    cell.title!.text = "\(notifs[indexPath.row].course!): \(notifs[indexPath.row].title!)"
+//                    cell.detail!.text = formatter.stringFromDate(notifs[indexPath.row].when!)
+//                    return cell
+//                    
+//                    
+//                } else {
+//                    let cell = tableView.dequeueReusableCellWithIdentifier("notification", forIndexPath: indexPath) as! SimpleNotificationCell
+//                    cell.textLabel!.text = "\(notifs[indexPath.row].course!): \(notifs[indexPath.row].title!)"
+//                    cell.detailTextLabel!.text = formatter.stringFromDate(notifs[indexPath.row].when!)
+//                    
+//                    cell.leftButtons = [MGSwipeButton(title: "", icon: UIImage(named: "check.png"), backgroundColor: UIColor.greenColor())]
+//                    cell.leftExpansion.buttonIndex = 0
+//                    cell.leftExpansion.fillOnTrigger = true
+//                    cell.leftExpansion.threshold = 3
+//                    cell.leftSwipeSettings.transition = .ClipCenter
+//                    
+//                    cell.rightButtons = [MGSwipeButton(title: "Odložit", backgroundColor: UIColor.orangeColor())]
+//                    cell.rightSwipeSettings.transition = .ClipCenter
+//                    return cell
+//                }
+//            } else {
+//                let cell = tableView.dequeueReusableCellWithIdentifier("notification", forIndexPath: indexPath) as! SimpleNotificationCell
+//                cell.textLabel!.text = "\(notifs[indexPath.row].course!): \(notifs[indexPath.row].title!)"
+//                cell.detailTextLabel!.text = formatter.stringFromDate(notifs[indexPath.row].when!)
+//                
+//                cell.leftButtons = [MGSwipeButton(title: "", icon: UIImage(named: "check.png"), backgroundColor: UIColor.greenColor())]
+//                cell.leftExpansion.buttonIndex = 0
+//                cell.leftExpansion.fillOnTrigger = true
+//                cell.leftExpansion.threshold = 3
+//                cell.leftSwipeSettings.transition = .ClipCenter
+//                
+//                cell.rightButtons = [MGSwipeButton(title: "Odložit", backgroundColor: UIColor.orangeColor())]
+//                cell.rightSwipeSettings.transition = .ClipCenter
+//                return cell
+//            }
+//        } else {
+//            let cell = tableView.dequeueReusableCellWithIdentifier("WISLogin", forIndexPath: indexPath) as! WISLoginCell
+//            return cell
+//        }
     }
     
-    func deleteCell(gesture: UIGestureRecognizer) {
-        print(".")
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if loggedIn {
+            if let sections = fetchedResultsController.sections {
+                let currentSection = sections[section]
+                return (currentSection.name == "single" ? "Oznamy" :
+                    (currentSection.name == "select") ? "Registace" :
+                    "")
+            }
+        }
+        return nil
     }
-    // MARK: Cell expansion
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let previousIndexPath = selectedIndexPath
-        
-        
-        currentCell = tableView.cellForRowAtIndexPath(indexPath) as? WISLoginCell
-        
-        if let cell = currentCell {
-            cell.login.becomeFirstResponder()
-        }
-        
-        if indexPath == previousIndexPath {
-            selectedIndexPath = nil
-        } else {
-            selectedIndexPath = indexPath
-        }
-        
-        var indexPaths = [NSIndexPath]()
-        
-        if let previous = previousIndexPath {
-            indexPaths += [previous]
-        }
-        
-        if let current = selectedIndexPath {
-            indexPaths += [current]
-        }
-        
-        if indexPaths.count > 0 {
-            tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Automatic)
-        }
-    }
-    
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if displayLogin {
-            if let c = cell as? WISLoginCell {
-                c.ignoreFrameChanges()
+        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if loggedIn {
+            let cell = fetchedResultsController.objectAtIndexPath(indexPath) as! NotificationStack
+            if cell.type == "select" {
+                var indexArray = [NSIndexPath]()
+                var i = 1
+                let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+                let fetchRequest = NSFetchRequest(entityName: "Task")
+                fetchRequest.predicate = NSPredicate(format: "title == %@", cell.title!)
+                
+                do {
+                    let task = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Task]
+                    
+                    for variant in task![0].variants! {
+                        variants.append(variant as! Variant)
+                        indexArray.append(NSIndexPath(forRow: indexPath.row + i, inSection: 0))
+                        i++
+                    }
+                    self.tableView.insertRowsAtIndexPaths(indexArray, withRowAnimation: .Automatic)
+                    
+                    
+                } catch {
+                    print(error)
+                }
+                
+                
+                
+                
+                
             }
+
         }
         
     }
-    
-    override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if displayLogin {
-            if let c = cell as? WISLoginCell {
-                c.ignoreFrameChanges()
-            }
-        }
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        if indexPath == selectedIndexPath {
-            return WISLoginCell.expandedHeight
-        } else {
-            return WISLoginCell.defaultHeight
-        }
-    }
-    
-    // MARK: Gesture recognizer
-    
-//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-//        if let _ = gestureRecognizer.view as? UITableViewCell {
-//            print("B")
-//            if (gestureRecognizer as! UISwipeGestureRecognizer).direction == UISwipeGestureRecognizerDirection.Right {
-//                print("A")
-//                return true
-//            }
-//        }
-//        return false
-//    }
-    
 }
 

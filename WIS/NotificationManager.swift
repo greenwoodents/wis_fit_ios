@@ -179,7 +179,7 @@ public class NotificationManager
                     if let end = task.end {
                         taskMO.end = dateFormater.dateFromString(end)
                     }
-                    dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                    dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                     if let reg_start = task.reg_start {
                         taskMO.reg_start = dateFormater.dateFromString(reg_start)
                     }
@@ -191,10 +191,10 @@ public class NotificationManager
                             for variant in task.variants! {
                                 let variantMO = NSEntityDescription.insertNewObjectForEntityForName("Variant", inManagedObjectContext: managedContext) as! Variant
                                 
-                                variantMO.id = variant.id
-                                variantMO.limit = variant.limit
-                                variantMO.registred = variant.registered
-                                variantMO.title = variant.title
+                                variantMO.id = variant.id!
+                                variantMO.limit = variant.limit!
+                                variantMO.registred = variant.registered!
+                                variantMO.title = variant.title!
                                 variantMO.parentTask = taskMO
                                 
                                 taskMO.addVariant(variantMO)
@@ -260,6 +260,9 @@ public class NotificationManager
                         if let title = task.title {
                             t[0].setValue("\(title)", forKey: "title")
                         }
+                        if let type = task.type {
+                            t[0].setValue("\(type)", forKey: "type")
+                        }
                         // PRIDAT UPDATE NA task.type A NEJAK VYRIESIT AKO POTOM VYTVORIT NOVU RELACIU
                     } catch let error as NSError {
                         print("Could not fetch \(error), \(error.userInfo)")
@@ -307,80 +310,19 @@ public class NotificationManager
     */
     func deleteCoreData() {
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        var fetchRequest = NSFetchRequest(entityName: "Variant")
         
-        do {
-            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Variant] {
-                
-                if fetchResults.count != 0 {
-                    var i = fetchResults.count
-                    
-                    for i ; i != 0 ; i-- {
-                        let delete = fetchResults[i - 1]
-                        managedContext.deleteObject(delete)
-                        try managedContext.save()   // CRASHED HERE
-                    }
-                }
+        let storeURL = managedContext.persistentStoreCoordinator?.URLForPersistentStore(((managedContext.persistentStoreCoordinator)?.persistentStores.last)!)
+        managedContext.performBlock {
+            managedContext.reset()
+            
+            do {
+                try managedContext.persistentStoreCoordinator?.removePersistentStore((managedContext.persistentStoreCoordinator?.persistentStores.last)!)
+                let defaultManager = NSFileManager()
+                try defaultManager.removeItemAtURL(storeURL!)
+                try managedContext.persistentStoreCoordinator?.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+            } catch {
+                print(error)
             }
-        } catch let error as NSError {
-            print(error)
-        }
-        
-        fetchRequest = NSFetchRequest(entityName: "Task")
-        
-        do {
-            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Task] {
-                
-                if fetchResults.count != 0 {
-                    var i = fetchResults.count
-                    
-                    for i ; i != 0 ; i-- {
-                        let delete = fetchResults[i - 1]
-                        managedContext.deleteObject(delete)
-                        try managedContext.save()
-                    }
-                }
-            }
-        } catch let error as NSError {
-            print(error)
-        }
-        
-        fetchRequest = NSFetchRequest(entityName: "Course")
-        
-        do {
-            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [Course] {
-                
-                if fetchResults.count != 0 {
-                    var i = fetchResults.count
-                    
-                    for i ; i != 0 ; i-- {
-                        let delete = fetchResults[i - 1]
-                        managedContext.deleteObject(delete) // NIE JE NSSET
-                        try managedContext.save()
-                    }
-                }
-            }
-        } catch let error as NSError {
-            print(error)
-        }
-        
-        fetchRequest = NSFetchRequest(entityName: "NotificationStack")
-        
-        do {
-            if let fetchResults = try managedContext.executeFetchRequest(fetchRequest) as? [NotificationStack] {
-                
-                if fetchResults.count != 0 {
-                    var i = fetchResults.count
-                    
-                    for i ; i != 0 ; i-- {
-                        let delete = fetchResults[i - 1]
-                        managedContext.deleteObject(delete) // NIE JE NSSET
-                        try managedContext.save()
-                    }
-                }
-            }
-        } catch let error as NSError {
-            print(error)
         }
     } // deleteCoreData
     
@@ -405,12 +347,14 @@ public class NotificationManager
             if !tasksMOs.isEmpty {
                 for task in tasksMOs {
                     if task.type == "select" {
+                        print(task.reg_start)
                         if let reg_start = task.reg_start {
                             let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                             notif.when = reg_start
                             notif.what = "ZAČÁTEK REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
+                            notif.type = task.type!
                             
                             do {
                                 try managedContext.save()
@@ -425,6 +369,7 @@ public class NotificationManager
                             notif.what = "KONEC REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
+                            notif.type = task.type!
                             
                             do {
                                 try managedContext.save()
@@ -440,6 +385,7 @@ public class NotificationManager
                         notif.what = "ZAČÁTEK"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
+                        notif.type = task.type!
                         
                         do {
                             try managedContext.save()
@@ -454,6 +400,7 @@ public class NotificationManager
                         notif.what = "KONEC"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
+                        notif.type = task.type!
                         
                         do {
                             try managedContext.save()
@@ -461,11 +408,6 @@ public class NotificationManager
                             print("Could not save \(error), \(error.userInfo)")
                         }
                     }
-                    
-//                    print(task.title)
-//                    print(task.type)
-//                    print(task.parentCourse?.title_cs)
-//                    print("================================================")
                 }
                 return false;
             } else {
@@ -477,13 +419,33 @@ public class NotificationManager
         return true;
     }
     
+    
+    
     /**
     * Updates notification stack
     * If there were made any changes in notification stack -> true.
     * If no changes were made or there is no notification stack -> false.
     */
-    func updateNotificationStack(XMLString: String) -> Bool {
-        return true;
+    func updateNotificationStack() {
+        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+            let defaults = NSUserDefaults.standardUserDefaults()
+            NetworkManager.sharedInstace.defaultManager.request(.GET, "https://wis.fit.vutbr.cz/FIT/st/get-coursesx.php") //presunut do ViewController a
+                .authenticate(user: defaults.stringForKey("login")!, password: defaults.stringForKey("passwd")!)
+                .response { response in
+                    if let _ = response.3 {
+                        print("error")
+                    } else {
+                        let notifManager = NotificationManager()
+                        let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
+                        
+                        if notifManager.parse(XMLstring as! String) {
+                            notifManager.saveData()
+                            notifManager.createNotificationStack()
+                        }
+                    }
+                    NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
+            }
+        } // dispatch end
     }
     
     
