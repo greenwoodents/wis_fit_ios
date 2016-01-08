@@ -7,18 +7,18 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FBSDKLoginKit
 
 class FBLoginCell: UITableViewCell {
     
     var dict: NSDictionary!
-    let loginButton = FBSDKLoginButton()
+//    let loginButton = FBSDKLoginButton()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        loginButton.center = self.center
-        self.addSubview(loginButton)
+//        loginButton.center = self.center
+//        self.addSubview(loginButton)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
