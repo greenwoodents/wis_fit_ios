@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import Alamofire
 import CoreData
+import SwiftyJSON
 
 class WISLoginCell: UITableViewCell, UITextFieldDelegate {
 
@@ -80,7 +82,6 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
     }
     
     deinit {
-        print("deinit")
         ignoreFrameChanges()
     }
     
@@ -122,6 +123,21 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                             }
                         }
                 } // dispatch end
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+                    Alamofire.request(.GET, "http://www.vasazubarka.sk/Tsc/Skusky.json")
+                        .responseJSON { response in
+                            switch response.result {
+                            case .Success:
+                                if let value = response.result.value {
+                                    NotificationManager().parseAndSaveExternalSources(value)
+                                    
+                                }
+                            case .Failure(let error):
+                                print(error)
+                                
+                            }
+                        }
+                }
                 
             } else {
                 ShakeAnimation.animate(self)

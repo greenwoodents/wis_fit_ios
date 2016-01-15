@@ -21,6 +21,7 @@ extension NotificationStack {
     @NSManaged var type: String?
     @NSManaged var what: String?
     @NSManaged var when: NSDate?
+    @NSManaged var whenNotify: NSDate?
     @NSManaged var read: NSNumber?
 
 }

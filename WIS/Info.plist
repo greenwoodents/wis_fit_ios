@@ -43,6 +43,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+            <key>vasazubarka.sk</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
 			<key>akamaihd.net</key>
 			<dict>
 				<key>NSExceptionRequiresForwardSecrecy</key>

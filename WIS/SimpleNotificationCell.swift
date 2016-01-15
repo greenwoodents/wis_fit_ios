@@ -9,7 +9,7 @@
 import UIKit
 import MGSwipeTableCell
 
-class SimpleNotificationCell: MGSwipeTableCell {
+class SimpleNotificationCell: MGSwipeTableCell, MGSwipeTableCellDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,4 +21,9 @@ class SimpleNotificationCell: MGSwipeTableCell {
 
         // Configure the view for the selected state
     }
+    
+    func swipeTableCellWillBeginSwiping(cell: MGSwipeTableCell!) {
+        print("A")
+    }
+    
 }

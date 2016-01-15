@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Title-->
+        <!--WIS-->
         <scene sceneID="cOU-fs-nFM">
             <objects>
                 <tableViewController id="hFp-GM-mA1" customClass="ViewController" customModule="WIS" customModuleProvider="target" sceneMemberID="viewController">
@@ -155,7 +155,7 @@
                             <outlet property="delegate" destination="hFp-GM-mA1" id="nM1-VE-V9X"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="cYU-z8-zXt">
+                    <navigationItem key="navigationItem" title="WIS" id="cYU-z8-zXt">
                         <barButtonItem key="rightBarButtonItem" title="Odhlásit" id="f6e-TL-dsz">
                             <connections>
                                 <action selector="logout:" destination="hFp-GM-mA1" id="sfr-Ie-jyr"/>

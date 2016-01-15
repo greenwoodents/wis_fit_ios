@@ -18,6 +18,7 @@ prepis pristup do Core Data tak aby nespomaloval hlavne vlakno
 import Foundation
 import CoreData
 import Fuzi
+import SwiftyJSON
 
 public class NotificationManager
 {
@@ -250,7 +251,7 @@ public class NotificationManager
                         if let start = task.start {
                             t[0].setValue(dateFormater.dateFromString(start), forKey: "start")
                         }
-                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                         if let reg_end = task.reg_end {
                             t[0].setValue(dateFormater.dateFromString(reg_end), forKey: "start")
                         }
@@ -347,10 +348,10 @@ public class NotificationManager
             if !tasksMOs.isEmpty {
                 for task in tasksMOs {
                     if task.type == "select" {
-                        print(task.reg_start)
                         if let reg_start = task.reg_start {
                             let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                             notif.when = reg_start
+                            notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
                             notif.what = "ZAČÁTEK REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
@@ -361,11 +362,13 @@ public class NotificationManager
                             } catch let error as NSError  {
                                 print("Could not save \(error), \(error.userInfo)")
                             }
+                            registerNotification(notif)
                         }
                         
                         if let reg_end = task.reg_end {
                             let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                             notif.when = reg_end
+                            notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
                             notif.what = "KONEC REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
@@ -376,12 +379,14 @@ public class NotificationManager
                             } catch let error as NSError  {
                                 print("Could not save \(error), \(error.userInfo)")
                             }
+                            registerNotification(notif)
                         }
                     }
                     
                     if let start = task.start {
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         notif.when = start
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
                         notif.what = "ZAČÁTEK"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
@@ -392,11 +397,13 @@ public class NotificationManager
                         } catch let error as NSError  {
                             print("Could not save \(error), \(error.userInfo)")
                         }
+                        registerNotification(notif)
                     }
                     
                     if let end = task.end {
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         notif.when = end
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
                         notif.what = "KONEC"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
@@ -407,6 +414,7 @@ public class NotificationManager
                         } catch let error as NSError  {
                             print("Could not save \(error), \(error.userInfo)")
                         }
+                        registerNotification(notif)
                     }
                 }
                 return false;
@@ -451,12 +459,57 @@ public class NotificationManager
     
     
     
+//    func parseExternalSources(source: String) {
+//        print(source)
+//        let json = JSON(source.value)
+//        print(json["INM"]["Prvy"])
+////        print(json["INM"])
+////        for (key,subJson):(String, JSON) in json {
+////            print(json[key])
+////            print(subJson)
+////        }
+//    }
+    
+    
+    func parseAndSaveExternalSources(source: AnyObject) {
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let json = JSON(source)
+        let dateFormater = NSDateFormatter()
+        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        for (course, subJson):(String, JSON) in json {
+            for (termin, _):(String, JSON) in subJson {
+                let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
+                notif.type = "misc"
+                notif.course = course
+                notif.when = dateFormater.dateFromString(json[course][termin].stringValue)
+                notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                notif.title = "\(course): \(termin)"
+            }
+        }
+        do {
+            try managedContext.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
     
     
     
     
     
     
+    
+    func registerNotification(notif: NotificationStack) {
+        let notification = UILocalNotification()
+        notification.alertBody = notif.title // text that will be displayed in the notification
+//        notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+        notification.fireDate = notif.whenNotify // todo item due date (when notification will be fired)
+        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+        notification.userInfo = ["":""] // assign a unique identifier to the notification so that we can retrieve it later
+        notification.category = nil
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
     
     
     

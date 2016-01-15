@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Automatic">
     <entity name="Course" representedClassName="Course" syncable="YES">
         <attribute name="abbrv" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="credits" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -19,6 +19,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="what" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="when" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="whenNotify" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
@@ -40,7 +41,7 @@
     </entity>
     <elements>
         <element name="Course" positionX="-20" positionY="-18" width="128" height="163"/>
-        <element name="NotificationStack" positionX="151" positionY="-207" width="128" height="165"/>
+        <element name="NotificationStack" positionX="151" positionY="-207" width="128" height="180"/>
         <element name="Task" positionX="196" positionY="-18" width="128" height="178"/>
         <element name="Variant" positionX="412" positionY="59" width="128" height="118"/>
     </elements>
