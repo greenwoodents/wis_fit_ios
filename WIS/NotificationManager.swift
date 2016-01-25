@@ -141,6 +141,13 @@ public class NotificationManager
     * If courses is empty -> false
     *
     */
+    
+    
+    
+    
+    
+    
+    
     func saveData() -> Bool {
 
         if courses.isEmpty {
@@ -216,99 +223,9 @@ public class NotificationManager
     
     
 
-    /**
-    * Updates Course, Task and Variant entities in Core Data
-    * Some Uprades were made -> true - NOT IMPLEMENTED
-    * No updates were made -> false - NOT IMPLEMENTED
-    */
-    func update(Courses: String) -> Bool {
-        
-        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        
-        for course in courses {
-            let fetchRequest = NSFetchRequest(entityName: "Course")
-            fetchRequest.predicate = NSPredicate(format: "csid == %@", "\(course.id)")
-            
-            do {
-                let c = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
-                c[0].setValue(course.points, forKey: "points")
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
-            }
-            // VYRIESIT NOVE TASKY
-            if let _ = course.tasks {
-                for task in course.tasks! {
-                    
-                    let fetchRequest = NSFetchRequest(entityName: "Task")
-                    fetchRequest.predicate = NSPredicate(format: "id == %@", "\(task.id!)")
-                    do {
-                        let dateFormater = NSDateFormatter()
-                        dateFormater.dateFormat = "yyy-MM-dd"
-                        let t = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
-                        if let end = task.end {
-                            t[0].setValue(dateFormater.dateFromString(end), forKey: "end")
-                        }
-                        if let start = task.start {
-                            t[0].setValue(dateFormater.dateFromString(start), forKey: "start")
-                        }
-                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                        if let reg_end = task.reg_end {
-                            t[0].setValue(dateFormater.dateFromString(reg_end), forKey: "start")
-                        }
-                        if let reg_start = task.reg_start {
-                            t[0].setValue(dateFormater.dateFromString(reg_start), forKey: "start")
-                        }
-                        if let title = task.title {
-                            t[0].setValue("\(title)", forKey: "title")
-                        }
-                        if let type = task.type {
-                            t[0].setValue("\(type)", forKey: "type")
-                        }
-                        // PRIDAT UPDATE NA task.type A NEJAK VYRIESIT AKO POTOM VYTVORIT NOVU RELACIU
-                    } catch let error as NSError {
-                        print("Could not fetch \(error), \(error.userInfo)")
-                    }
-                    
-                    if let _ = task.variants {
-                        for variant in task.variants! {
-                            let fetchRequest = NSFetchRequest(entityName: "Variant")
-                            fetchRequest.predicate = NSPredicate(format: "id == %@", "\(variant.id!)")
-                            do {
-                                let v = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
-                                
-                                if let limit = variant.limit {
-                                    v[0].setValue(limit, forKey: "limit")
-                                }
-                                if let registered = variant.registered {
-                                    v[0].setValue(registered, forKey: "registred")
-                                }
-                                if let title = variant.title {
-                                    v[0].setValue(title, forKey: "title")
-                                }
-                            } catch let error as NSError {
-                                print("Could not fetch \(error), \(error.userInfo)")
-                            }
-                        } // for variant
-                    } // if let task.variants
-                } // for task
-            } // if let course.tasks
-        } // for course
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print(error)
-        }
-        
-        
-        
-        return true;
-    }
     
-    /*
-    Deletes all Course information stored in Core Data
-    Executed when user logs out
-    */
+    
+    
     func deleteCoreData() {
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
@@ -331,11 +248,9 @@ public class NotificationManager
     
     
     
-    /**
-    * Creates notification stack from data stored in Core Data
-    * Success -> true
-    * Already existing notification stack -> false
-    */
+    
+    
+    
     public func createNotificationStack() -> Bool {
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
@@ -459,17 +374,7 @@ public class NotificationManager
     
     
     
-//    func parseExternalSources(source: String) {
-//        print(source)
-//        let json = JSON(source.value)
-//        print(json["INM"]["Prvy"])
-////        print(json["INM"])
-////        for (key,subJson):(String, JSON) in json {
-////            print(json[key])
-////            print(subJson)
-////        }
-//    }
-    
+
     
     func parseAndSaveExternalSources(source: AnyObject) {
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
@@ -559,4 +464,102 @@ public class NotificationManager
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    func saveNotifications(XMLString: String) -> Bool {
+        
+        parse(XMLString)
+        
+        if courses.isEmpty {
+            return false
+        }
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        for course in courses {
+            
+            if !course.tasks!.isEmpty {
+                
+                for task in course.tasks! {
+                    
+                    let dateFormater = NSDateFormatter()
+                    
+                    
+                    if let reg_start = task.reg_start {
+                        let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
+                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                        notif.when = dateFormater.dateFromString(reg_start)
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.what = "Zaciatok registracie"
+                        notif.course = course.abbrv
+                        notif.title = task.title!
+                        notif.type = task.type!
+                        do {
+                            try managedContext.save()
+                        } catch let error as NSError  {
+                            print(error)
+                        }
+                    }
+                    
+                    if let reg_end = task.reg_end {
+                        let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
+                        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                        notif.when = dateFormater.dateFromString(reg_end)
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.what = "Koniec registracie"
+                        notif.course = course.abbrv
+                        notif.title = task.title!
+                        notif.type = task.type!
+                        do {
+                            try managedContext.save()
+                        } catch let error as NSError  {
+                            print(error)
+                        }
+                    }
+                    
+                    if let start = task.start {
+                        let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
+                        dateFormater.dateFormat = "yyyy-MM-dd"
+                        notif.when = dateFormater.dateFromString(start)
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.what = "Zaciatok"
+                        notif.course = course.abbrv
+                        notif.title = task.title!
+                        notif.type = task.type!
+                        
+                        do {
+                            try managedContext.save()
+                        } catch let error as NSError  {
+                            print(error)
+                        }
+                    }
+                    
+                    if let end = task.end {
+                        let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
+                        dateFormater.dateFormat = "yyyy-MM-dd"
+                        notif.when = dateFormater.dateFromString(end)
+                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.what = "Koniec"
+                        notif.course = course.abbrv
+                        notif.title = task.title!
+                        notif.type = task.type!
+                        
+                        do {
+                            try managedContext.save()
+                        } catch let error as NSError  {
+                            print(error)
+                        }
+                    }
+                    saveData()
+                }
+            }
+        }
+        return true
+        
+    } 
 }

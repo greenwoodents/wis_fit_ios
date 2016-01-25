@@ -19,12 +19,11 @@ class ViewController:   UITableViewController,
                         MGSwipeTableCellDelegate {
     
     
-    var variants = [Variant]()
-    
     struct SelectCell {
-        var title:String
-        var detail:String
-        var when:NSDate?
+        var course: String
+        var title: String
+        var detail: String
+        var when: NSDate?
     }
     var selectCells = [SelectCell]()
     var indexArray = [NSIndexPath]()
@@ -45,14 +44,19 @@ class ViewController:   UITableViewController,
         let primarySortDescriptor = NSSortDescriptor(key: "type", ascending: true)
         let secondarySortDescriptor = NSSortDescriptor(key: "course", ascending: true)
         fetchRequest.sortDescriptors = [primarySortDescriptor, secondarySortDescriptor]
-        let typePredicates = NSCompoundPredicate(orPredicateWithSubpredicates: [NSPredicate(format: "type = %@", single),
-                                                                                NSPredicate(format: "type = %@", select),
-                                                                                NSPredicate(format: "type = %@", misc)])
-        let whenPredicates = NSCompoundPredicate(andPredicateWithSubpredicates:[NSPredicate(format: "when >= %@", NSDate()),
-                                                                                NSPredicate(format: "when <= %@", NSDate().dateByAddingTimeInterval(60*60*24*5))])
+        let singleOrMiscPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [NSPredicate(format: "type = %@", single),
+                                                                                       NSPredicate(format: "type = %@", misc)])
+        let nonRegisterPredicates = NSCompoundPredicate(andPredicateWithSubpredicates: [singleOrMiscPredicate,
+                                                                                        NSPredicate(format: "when >= %@", NSDate()),
+                                                                                        NSPredicate(format: "when <= %@", NSDate().dateByAddingTimeInterval(60*60*24*5))])
+        
+        let registerPredicates = NSCompoundPredicate(andPredicateWithSubpredicates: [NSPredicate(format: "type = %@", select),
+                                                                                    NSPredicate(format: "when >= %@", NSDate().dateByAddingTimeInterval(60*60*24*7*(-1))),
+                                                                                    NSPredicate(format: "when <= %@", NSDate().dateByAddingTimeInterval(60*60*24*2))
+                                                                                    ])
         
         
-        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [typePredicates, whenPredicates])
+        fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [registerPredicates, nonRegisterPredicates])
         //NSPredicate(format: "(type = %@ or type = %@) AND (when >= %@) AND (when <= %@) ", single, select, NSDate(), NSDate().dateByAddingTimeInterval(60*60*24*7))
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -135,7 +139,9 @@ class ViewController:   UITableViewController,
             try self.fetchedResultsController.performFetch()
             
             for object in (fetchedResultsController.fetchedObjects as! [NotificationStack]) {
-                selectCells.append(SelectCell.init(title: object.title!, detail: "", when: object.when!))
+                if object.type! == "select" {
+                    selectCells.append(SelectCell.init(course: object.course!, title: object.title!, detail: "", when: object.when!))
+                }
             }
         } catch {
             print(error)
@@ -159,7 +165,9 @@ class ViewController:   UITableViewController,
                 try self.fetchedResultsController.performFetch()
                 
                 for object in (fetchedResultsController.fetchedObjects as! [NotificationStack]) {
-                    selectCells.append(SelectCell.init(title: object.title!, detail: "", when: object.when!))
+                    if object.type! == "select" {
+                        selectCells.append(SelectCell.init(course: object.course!, title: object.title!, detail: "", when: object.when!))
+                    }
                 }
                 
             } catch {
@@ -197,19 +205,27 @@ class ViewController:   UITableViewController,
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if loggedIn {
-            if let sections = fetchedResultsController.sections {
-                let currentSection = sections[section]
-                if section == 0 {
-                    return selectCells.count
-                } else {
-                    return currentSection.numberOfObjects
-                }
+            if self.tableView(self.tableView, titleForHeaderInSection: section) == "Registrace" {
+                return selectCells.count
             } else {
-                return 1
+                return self.fetchedResultsController.sections![section].numberOfObjects
             }
         } else {
             return 1
         }
+//            if let sections = fetchedResultsController.sections {
+//                let currentSection = sections[section]
+//                if section == 0 {
+//                    return selectCells.count
+//                } else {
+//                    return currentSection.numberOfObjects
+//                }
+//            } else {
+//                return 1
+//            }
+//        } else {
+//            return 1
+//        }
     }
     
     
@@ -231,8 +247,11 @@ class ViewController:   UITableViewController,
         if loggedIn {
             let cell = tableView.dequeueReusableCellWithIdentifier("notification", forIndexPath: indexPath) as! SimpleNotificationCell
             
-            if indexPath.section == 0 {
-                cell.textLabel!.text = selectCells[indexPath.row].title
+            if self.tableView(self.tableView, titleForHeaderInSection: indexPath.section) == "Registrace" {
+                cell.course = selectCells[indexPath.row].course
+                cell.mainText = selectCells[indexPath.row].title
+                cell.textLabel!.text = "\(cell.course): \(cell.mainText)"
+                
                 if let date = selectCells[indexPath.row].when {
                     cell.detailTextLabel!.text = formatter.stringFromDate(date)
                 } else {
@@ -248,17 +267,18 @@ class ViewController:   UITableViewController,
             if !isVariant(indexPath) {
                 let removeCellButton = MGSwipeButton(title: "",
                     icon: UIImage(named: "check.png"),
-                    backgroundColor: UIColor.greenColor()) { sender -> Bool in
-                        
-                        print("A")
-                        return true
-                }
+                    backgroundColor: UIColor.greenColor()) //{ sender -> Bool in
+//                        sender.
+//                        
+//                        print("A")
+//                        return true
+//                }
                 
                 let postponeCellButton = MGSwipeButton(title: "Odlozit",
-                    backgroundColor: UIColor.yellowColor()) { sender -> Bool in
-                        print("B")
-                    return true
-                }
+                    backgroundColor: UIColor.yellowColor()) //{ sender -> Bool in
+//                        print("B")
+//                    return true
+//                }
                 
                 
                 cell.leftButtons = [removeCellButton]
@@ -270,6 +290,8 @@ class ViewController:   UITableViewController,
                 cell.rightExpansion.buttonIndex = 0
                 cell.rightExpansion.fillOnTrigger = true
                 cell.rightSwipeSettings.transition = .ClipCenter
+                
+                cell.delegate = self
             }
             
             return cell
@@ -305,7 +327,7 @@ class ViewController:   UITableViewController,
             if let sections = fetchedResultsController.sections {
                 let currentSection = sections[section]
                 return (currentSection.name == "single" ? "Oznamy" :
-                    (currentSection.name == "select") ? "Registace" :
+                    (currentSection.name == "select") ? "Registrace" :
                     (currentSection.name == "misc") ? "Ostatné" : "")
             }
         }
@@ -322,26 +344,30 @@ class ViewController:   UITableViewController,
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if loggedIn && indexPath.section == 0 && self.fetchedResultsController.sections![indexPath.section].name == "select" {
-            let cell = selectCells[indexPath.row]
+        
+        if loggedIn && self.tableView(self.tableView, titleForHeaderInSection: indexPath.section)! == "Registrace" {
+            //let cell = self.tableView(self.tableView, cellForRowAtIndexPath: indexPath) as! SimpleNotificationCell
             if !expanded  {
                 var i = 1
                 let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
                 let fetchRequest = NSFetchRequest(entityName: "Task")
-                fetchRequest.predicate = NSPredicate(format: "title == %@", cell.title)
+                
+                fetchRequest.predicate = NSPredicate(format: "title == %@", selectCells[indexPath.row].title)
                 
                 do {
                     let task = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Task]
                     
                     for variant in task![0].variants! {
-                        variants.append(variant as! Variant)
-                        selectCells.insert(SelectCell.init( title: (variant as! Variant).title!,
+                        
+                        selectCells.insert(SelectCell.init(course: selectCells[indexPath.row].course, title: (variant as! Variant).title!,
                             detail: "",
                             when: nil),
                             atIndex: indexPath.row + i)
-                        indexArray.append(NSIndexPath(forRow: indexPath.row + i, inSection: 0))
+                        
+                        indexArray.append(NSIndexPath(forRow: indexPath.row + i, inSection: indexPath.section))
                         i++
                     }
+                    
                     self.tableView.insertRowsAtIndexPaths(indexArray, withRowAnimation: .Top)
                     
                 } catch {
@@ -356,30 +382,37 @@ class ViewController:   UITableViewController,
             }
         }
     }
+    
+    
+    
+    
     func swipeTableCell(cell: MGSwipeTableCell!, canSwipe direction: MGSwipeDirection) -> Bool {
+        if expanded {
+            if indexArray.contains(self.tableView.indexPathForCell(cell)!) {
+                return false
+            }
+        }
         return true
     }
     
-    
-    
-    
-//    func swipeTableCell(cell: MGSwipeTableCell!, swipeButtonsForDirection direction: MGSwipeDirection, swipeSettings: MGSwipeSettings!, expansionSettings: MGSwipeExpansionSettings!) -> [AnyObject]! {
-//        
-//        
-//        
-//        
-//        
-//        let removeCellButton = MGSwipeButton(title: "",
-//            icon: UIImage(named: "check.png"),
-//            backgroundColor: UIColor.greenColor()) { (sender: MGSwipeTableCell!) -> Bool in
-//                return true
-//        }
-//        
-//        cell.leftButtons = [removeCellButton]
-//        cell.leftExpansion.buttonIndex = 0
-//        cell.leftExpansion.fillOnTrigger = true
-//        cell.leftSwipeSettings.transition = .ClipCenter
-//        
-//    }
+    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        if direction == MGSwipeDirection.LeftToRight {
+            
+            let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+            managedObjectContext.deleteObject(self.fetchedResultsController.objectAtIndexPath(self.tableView.indexPathForCell(cell)!) as! NotificationStack)
+            
+            do {
+                try managedObjectContext.save()
+                try self.fetchedResultsController.performFetch()
+            } catch {
+                print(error)
+            }
+            
+            self.tableView.reloadData()//deleteRowsAtIndexPaths([self.tableView.indexPathForCell(cell)!], withRowAnimation: .Automatic)
+            
+            return true
+        }
+        return true
+    }
 }
 

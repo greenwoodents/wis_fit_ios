@@ -112,12 +112,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                                 defaults.synchronize()
                                 self.login.text?.removeAll()
                                 self.passwd.text?.removeAll()
-                                if notifManager.parse(XMLstring as! String) {
-    //                                notifManager.printStructs()
-                                    
-                                    notifManager.saveData()
-    //                                    notifManager.update("as") //asdasdasd!!!!!! TOTO UPRAVIT
-                                        notifManager.createNotificationStack()
+                                if notifManager.saveNotifications(XMLstring as! String) {
                                     NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
                                 }
                             }
