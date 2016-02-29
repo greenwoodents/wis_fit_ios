@@ -1,7 +1,10 @@
-//
-//  Use this file to import your target's public headers that you would like to expose to Swift.
-//
 
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
-//#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
+#ifndef WIS_Bridging_Header_h
+#define WIS_Bridging_Header_h
+
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import <MailCore/MailCore.h>
+#import <MailCore/MCOConstants.h>
+
+#endif /* YourProject_Bridging_Header_h */

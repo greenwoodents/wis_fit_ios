@@ -2,7 +2,7 @@
 //  NotificationStack.swift
 //  
 //
-//  Created by Tomáš Ščavnický on 10.11.15.
+//  Created by Tomáš Ščavnický on 28.01.16.
 //
 //
 

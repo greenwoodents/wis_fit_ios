@@ -19,9 +19,9 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
     var cellAdded = false
     var type = "login"
     
-    let MyKeychainWrapper = KeychainWrapper()
     
     
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var login: UITextField!
     @IBOutlet var passwd: UITextField!
     
@@ -32,13 +32,11 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.selectionStyle = UITableViewCellSelectionStyle.None
         self.login.delegate = self
         self.passwd.delegate = self
-        login.tag = 1
-        passwd.tag = 2  //mozem vymazat
         passwd.secureTextEntry = true
-        
-        // Initialization code
+        activityIndicator.hidesWhenStopped = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -85,6 +83,7 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
         ignoreFrameChanges()
     }
     
+    
     // MARK: Textfield
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -92,14 +91,24 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
             passwd.becomeFirstResponder()
         } else if textField == passwd {
             textField.resignFirstResponder()
-            if login.text! != "" && passwd.text! != "" {
+            if !login.text!.isEmpty && !passwd.text!.isEmpty {
+                
+
                 dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.activityIndicator.startAnimating()
+                    }
                     NetworkManager.sharedInstace.defaultManager.request(.GET, "https://wis.fit.vutbr.cz/FIT/st/get-coursesx.php") //presunut do ViewController a
                         .authenticate(user: self.login.text!, password: self.passwd.text!)
                         .response { response in
-                            if let _ = response.3 {
+                            if let error = response.3 {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self.activityIndicator.stopAnimating()
+                                }
                                 ShakeAnimation.animate(self)
-                                print("error")
+                                print(__LINE__)
+                                print(__FUNCTION__)
+                                print(error)
                             } else {
                                 let notifManager = NotificationManager()
                                 let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
@@ -112,26 +121,32 @@ class WISLoginCell: UITableViewCell, UITextFieldDelegate {
                                 defaults.synchronize()
                                 self.login.text?.removeAll()
                                 self.passwd.text?.removeAll()
-                                if notifManager.saveNotifications(XMLstring as! String) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
+                                notifManager.saveNotifications(XMLstring as! String)
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self.activityIndicator.stopAnimating()
                                 }
+                                NSNotificationCenter.defaultCenter().postNotificationName("downloadInboxID", object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName("fillMostRecentNotifsID", object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName("displayNavigationElementsID", object: nil)
                             }
                         }
                 } // dispatch end
                 dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
                     Alamofire.request(.GET, "http://www.vasazubarka.sk/Tsc/Skusky.json")
-                        .responseJSON { response in
-                            switch response.result {
-                            case .Success:
-                                if let value = response.result.value {
-                                    NotificationManager().parseAndSaveExternalSources(value)
-                                    
-                                }
-                            case .Failure(let error):
-                                print(error)
+                    .responseJSON { response in
+                        switch response.result {
+                        case .Success:
+                            if let value = response.result.value {
+                                NotificationManager().parseAndSaveExternalSources(value)
                                 
                             }
+                        case .Failure(let error):
+                            print(__LINE__)
+                            print(__FUNCTION__)
+                            print(error)
+                            
                         }
+                    }
                 }
                 
             } else {

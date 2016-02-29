@@ -9,8 +9,6 @@
 
 /*
 
-http://matthewmorey.com/core-data-batch-updates/
-
 prepis pristup do Core Data tak aby nespomaloval hlavne vlakno
 
 */
@@ -130,6 +128,8 @@ public class NotificationManager
                 } // for element in root.children
             }
         } catch let error {
+            print(__LINE__)
+            print(__FUNCTION__)
             print(error)
             return false
         }
@@ -239,6 +239,8 @@ public class NotificationManager
                 try defaultManager.removeItemAtURL(storeURL!)
                 try managedContext.persistentStoreCoordinator?.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
             } catch {
+                print(__LINE__)
+                print(__FUNCTION__)
                 print(error)
             }
         }
@@ -266,7 +268,7 @@ public class NotificationManager
                         if let reg_start = task.reg_start {
                             let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                             notif.when = reg_start
-                            notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                            notif.whenNotify = notif.when!.addDays(-5)
                             notif.what = "ZAČÁTEK REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
@@ -277,13 +279,12 @@ public class NotificationManager
                             } catch let error as NSError  {
                                 print("Could not save \(error), \(error.userInfo)")
                             }
-                            registerNotification(notif)
                         }
                         
                         if let reg_end = task.reg_end {
                             let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                             notif.when = reg_end
-                            notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                            notif.whenNotify = notif.when!.addDays(-5)
                             notif.what = "KONEC REGISTRACE"
                             notif.course = task.parentCourse?.abbrv!
                             notif.title = task.title!
@@ -294,14 +295,13 @@ public class NotificationManager
                             } catch let error as NSError  {
                                 print("Could not save \(error), \(error.userInfo)")
                             }
-                            registerNotification(notif)
                         }
                     }
                     
                     if let start = task.start {
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         notif.when = start
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.whenNotify = notif.when!.addDays(-5)
                         notif.what = "ZAČÁTEK"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
@@ -312,13 +312,12 @@ public class NotificationManager
                         } catch let error as NSError  {
                             print("Could not save \(error), \(error.userInfo)")
                         }
-                        registerNotification(notif)
                     }
                     
                     if let end = task.end {
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         notif.when = end
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
+                        notif.whenNotify = notif.when!.addDays(-5)
                         notif.what = "KONEC"
                         notif.course = task.parentCourse?.abbrv!
                         notif.title = task.title!
@@ -329,7 +328,6 @@ public class NotificationManager
                         } catch let error as NSError  {
                             print("Could not save \(error), \(error.userInfo)")
                         }
-                        registerNotification(notif)
                     }
                 }
                 return false;
@@ -344,32 +342,7 @@ public class NotificationManager
     
     
     
-    /**
-    * Updates notification stack
-    * If there were made any changes in notification stack -> true.
-    * If no changes were made or there is no notification stack -> false.
-    */
-    func updateNotificationStack() {
-        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0)) {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            NetworkManager.sharedInstace.defaultManager.request(.GET, "https://wis.fit.vutbr.cz/FIT/st/get-coursesx.php") //presunut do ViewController a
-                .authenticate(user: defaults.stringForKey("login")!, password: defaults.stringForKey("passwd")!)
-                .response { response in
-                    if let _ = response.3 {
-                        print("error")
-                    } else {
-                        let notifManager = NotificationManager()
-                        let XMLstring = NSString(data: response.2!, encoding: NSUTF8StringEncoding)
-                        
-                        if notifManager.parse(XMLstring as! String) {
-                            notifManager.saveData()
-                            notifManager.createNotificationStack()
-                        }
-                    }
-                    NSNotificationCenter.defaultCenter().postNotificationName("remoteRefreshID", object: nil)
-            }
-        } // dispatch end
-    }
+    
     
     
     
@@ -388,10 +361,12 @@ public class NotificationManager
                 notif.type = "misc"
                 notif.course = course
                 notif.when = dateFormater.dateFromString(json[course][termin].stringValue)
-                notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
-                notif.title = "\(course): \(termin)"
+                notif.whenNotify = notif.when!.addDays(-5)
+                notif.title = termin
+                notif.displayNotification = NSNumber(bool: true)
             }
         }
+        
         do {
             try managedContext.save()
         } catch let error as NSError  {
@@ -407,11 +382,11 @@ public class NotificationManager
     
     func registerNotification(notif: NotificationStack) {
         let notification = UILocalNotification()
-        notification.alertBody = notif.title // text that will be displayed in the notification
-//        notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
-        notification.fireDate = notif.whenNotify // todo item due date (when notification will be fired)
-        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
-        notification.userInfo = ["":""] // assign a unique identifier to the notification so that we can retrieve it later
+        notification.alertBody = notif.title
+        notification.alertAction = "Slide to view"
+        notification.fireDate = notif.whenNotify
+        notification.soundName = UILocalNotificationDefaultSoundName
+        notification.userInfo = ["":""]
         notification.category = nil
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
@@ -471,13 +446,10 @@ public class NotificationManager
     
     
     
-    func saveNotifications(XMLString: String) -> Bool {
+    func saveNotifications(XMLString: String) {
         
         parse(XMLString)
         
-        if courses.isEmpty {
-            return false
-        }
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
@@ -494,14 +466,17 @@ public class NotificationManager
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                         notif.when = dateFormater.dateFromString(reg_start)
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
-                        notif.what = "Zaciatok registracie"
+                        notif.whenNotify = notif.when!.addDays(-5)
+                        notif.what = "Začiatok registrácie"
                         notif.course = course.abbrv
                         notif.title = task.title!
                         notif.type = task.type!
+                        notif.displayNotification = NSNumber(bool: true)
                         do {
                             try managedContext.save()
                         } catch let error as NSError  {
+                            print(__LINE__)
+                            print(__FUNCTION__)
                             print(error)
                         }
                     }
@@ -510,14 +485,17 @@ public class NotificationManager
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
                         notif.when = dateFormater.dateFromString(reg_end)
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
-                        notif.what = "Koniec registracie"
+                        notif.whenNotify = notif.when!.addDays(-7)
+                        notif.what = "Koniec registrácie"
                         notif.course = course.abbrv
                         notif.title = task.title!
                         notif.type = task.type!
+                        notif.displayNotification = NSNumber(bool: true)
                         do {
                             try managedContext.save()
                         } catch let error as NSError  {
+                            print(__LINE__)
+                            print(__FUNCTION__)
                             print(error)
                         }
                     }
@@ -526,15 +504,17 @@ public class NotificationManager
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         dateFormater.dateFormat = "yyyy-MM-dd"
                         notif.when = dateFormater.dateFromString(start)
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
-                        notif.what = "Zaciatok"
+                        notif.whenNotify = notif.when!.addDays(-7)
+                        notif.what = "Zahájenie"
                         notif.course = course.abbrv
                         notif.title = task.title!
                         notif.type = task.type!
-                        
+                        notif.displayNotification = NSNumber(bool: true)
                         do {
                             try managedContext.save()
                         } catch let error as NSError  {
+                            print(__LINE__)
+                            print(__FUNCTION__)
                             print(error)
                         }
                     }
@@ -543,15 +523,17 @@ public class NotificationManager
                         let notif = NSEntityDescription.insertNewObjectForEntityForName("NotificationStack", inManagedObjectContext: managedContext) as! NotificationStack
                         dateFormater.dateFormat = "yyyy-MM-dd"
                         notif.when = dateFormater.dateFromString(end)
-                        notif.whenNotify = notif.when!.dateByAddingTimeInterval(60*60*24*5*(-1))
-                        notif.what = "Koniec"
+                        notif.whenNotify = notif.when!.addDays(-7)
+                        notif.what = "Deadline"
                         notif.course = course.abbrv
                         notif.title = task.title!
                         notif.type = task.type!
-                        
+                        notif.displayNotification = NSNumber(bool: true)
                         do {
                             try managedContext.save()
                         } catch let error as NSError  {
+                            print(__LINE__)
+                            print(__FUNCTION__)
                             print(error)
                         }
                     }
@@ -559,7 +541,85 @@ public class NotificationManager
                 }
             }
         }
-        return true
+    }
+    
+    func updateNotifications(XMLString: String) {
         
-    } 
+        func compare<T: Equatable>(inout first: T, _ second: T) -> Bool {
+            if first == second {
+                return false
+            } else {
+                first = second
+                return true
+            }
+        }
+        
+        parse(XMLString)
+        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+
+        // urob pre NotificationStack a Course paralelne vlakna
+        
+        for course in courses {
+            var fetchRequest = NSFetchRequest(entityName: "Course")
+            fetchRequest.predicate = NSPredicate(format: "abbrv = %@", course.abbrv)
+            do  {
+                let courseMO = try managedObjectContext.executeFetchRequest(fetchRequest).first as! Course
+                compare(&courseMO.points!, course.points) // testni, ak true, potom daj userovi vediet
+                
+                // PRIDAT CHECK CI SU AJ TASKY ROVNAKE!!!
+                
+                try managedObjectContext.save()
+            } catch {
+                print(__LINE__)
+                print(__FUNCTION__)
+                print(error)
+                
+            }
+            
+            
+            
+            if let tasks = course.tasks {
+                for task in tasks {
+                    fetchRequest = NSFetchRequest(entityName: "Task")
+                    fetchRequest.predicate = NSPredicate(format: "title = %@", task.title!)
+                    do {
+                        let taskMO = try managedObjectContext.executeFetchRequest(fetchRequest).first as! Task
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        
+                        compare(&taskMO.type!, task.type!)
+                        if task.start != nil {
+                            compare(&taskMO.start!, dateFormatter.dateFromString(task.start!)!)
+                        } else if task.end != nil {
+                            compare(&taskMO.end!, dateFormatter.dateFromString(task.end!)!)
+                        } else if task.reg_start != nil {
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                            compare(&taskMO.reg_start!, dateFormatter.dateFromString(task.reg_start!)!)
+                        } else if task.reg_end != nil {
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                            compare(&taskMO.reg_end!, dateFormatter.dateFromString(task.reg_end!)!)
+                        }
+                        
+                        
+                        
+                        
+                        
+                    } catch {
+                        print(__LINE__)
+                        print(__FUNCTION__)
+                        print(error)
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+
+func ==(lhs: NSDate, rhs: NSDate) -> Bool {
+    if lhs.isEqualToDate(rhs) {
+        return true
+    } else {
+        return false
+    }
 }

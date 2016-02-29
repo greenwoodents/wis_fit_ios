@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreData
+import Fabric
+import Crashlytics
+
 //import FBSDKCoreKit
 
 @UIApplicationMain
@@ -15,12 +18,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
+        
+        
+        
+        
+        
+        let pageController = UIPageViewController(
+            transitionStyle: UIPageViewControllerTransitionStyle.Scroll, //Set the transition style to scroll
+            navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, // Horizontal scrolling only
+            options: nil
+        )
+        
+        // Create the navigation controller that the app will use as the main navigation controller and set the root view to the pageController above
+        let navigationController = JXSwipeBetweenViewControllers(rootViewController: pageController)
+        
+        // Set the background to white or to whatever you like
+        navigationController.view.backgroundColor = UIColor.lightGrayColor()
+        let storyboard =  UIStoryboard(name: "Main", bundle: nil)
+        let reminderController = storyboard.instantiateViewControllerWithIdentifier("notificationStoryboardID")
+        let webviewController = storyboard.instantiateViewControllerWithIdentifier("webviewStoryboardID")
+        let mailviewController = storyboard.instantiateViewControllerWithIdentifier("mailViewStoryboardID")
+        
+        let leftView = webviewController
+        let middleView = reminderController
+        let rightView = mailviewController
+        
+        // Set the swipable views here in a specific order with left most view first
+        navigationController.viewControllerArray = [leftView, middleView, rightView]
+        
+        // Set the root view to the navigation controller defined above
+        self.window!.rootViewController = navigationController;
+        self.window!.makeKeyAndVisible()
+        
+        
         return true
     }
 

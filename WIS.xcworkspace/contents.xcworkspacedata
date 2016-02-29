@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:WIS/NotificationStack+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:WIS/NotificationStack.swift">
+   </FileRef>
+   <FileRef
       location = "group:WIS.xcodeproj">
    </FileRef>
    <FileRef

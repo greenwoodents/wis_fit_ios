@@ -7,10 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CB09C2C8CD47F3AFD8ECF2C /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E0F201B32E58021EC5FC9 /* Pods.framework */; };
+		4C164A931C62DE9C00443810 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C164A921C62DE9C00443810 /* Extensions.swift */; };
+		4C164A951C64874400443810 /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C164A941C64874400443810 /* DataFetcher.swift */; };
+		4C20C94F1C6E4B9C00BEF6E9 /* MailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C20C94E1C6E4B9C00BEF6E9 /* MailViewController.swift */; };
+		4C20C9E91C6E59E900BEF6E9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C20C9CB1C6E573600BEF6E9 /* CFNetwork.framework */; };
+		4C20C9EA1C6E59EE00BEF6E9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C20C9C91C6E572C00BEF6E9 /* Security.framework */; };
+		4C23F93B1C5A6F84000D9B4C /* NotificationStack+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C23F9391C5A6F84000D9B4C /* NotificationStack+CoreDataProperties.swift */; };
+		4C23F93C1C5A6F84000D9B4C /* NotificationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C23F93A1C5A6F84000D9B4C /* NotificationStack.swift */; };
+		4C2D78B71C76129E004315FE /* OneEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D78B61C76129E004315FE /* OneEmailViewController.swift */; };
+		4C2D78B91C76A3D3004315FE /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D78B81C76A3D3004315FE /* NavigationView.swift */; };
+		4C3C67091C7610EE00683A9A /* MailBodyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3C67081C7610EE00683A9A /* MailBodyCell.swift */; };
 		4C41CE541BF1198200133A5F /* SimpleNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */; };
-		4C8EC6361C02871F00CB8980 /* FBLoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */; };
+		4C7576F51C56F4F4009AEDF6 /* GraphicalNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7576F41C56F4F4009AEDF6 /* GraphicalNotificationCell.swift */; };
+		4C7576F71C56FB5F009AEDF6 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7576F61C56FB5F009AEDF6 /* DrawingView.swift */; };
+		4C7DF6411C7BF9C700EFD46D /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7DF6321C7BF94E00EFD46D /* libMailCore-ios.a */; };
 		4C9411441C1B7C1A00C6279D /* ShakeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */; };
+		4C9A37A31C6A32950070B4BE /* MenzaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A37A21C6A32950070B4BE /* MenzaCell.swift */; };
+		4C9A37D51C6CF1FD0070B4BE /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A37D41C6CF1FD0070B4BE /* FontAwesome.swift */; };
+		4C9A37D71C6CF3930070B4BE /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A37D61C6CF3930070B4BE /* SwipeViewController.swift */; };
+		4C9A37DA1C6CF7E30070B4BE /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4C9A37D91C6CF7E30070B4BE /* FontAwesome.otf */; };
 		4CA6E53C1BE4145D007491A7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */; };
 		4CA6E5431BE421EE007491A7 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */; };
 		4CA6E5441BE421EE007491A7 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E53E1BE421EE007491A7 /* Task.swift */; };
@@ -18,7 +33,7 @@
 		4CA6E5461BE421EE007491A7 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5401BE421EE007491A7 /* Course.swift */; };
 		4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */; };
 		4CA6E5481BE421EE007491A7 /* Variant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E5421BE421EE007491A7 /* Variant.swift */; };
-		4CA6E54B1BE78A6D007491A7 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */; };
+		4CB688321C5D071E008A9C5F /* PostponeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB688311C5D071E008A9C5F /* PostponeViewController.swift */; };
 		4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC040781BCD84DF0067A54E /* NetworkManager.swift */; };
 		4CC0407B1BCD89190067A54E /* cacert.cer in Resources */ = {isa = PBXBuildFile; fileRef = 4CC0407A1BCD89190067A54E /* cacert.cer */; };
 		4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */; };
@@ -29,16 +44,80 @@
 		4CDDDC3D1BCC187900F96360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */; };
 		4CDDDC481BCC187900F96360 /* WISTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC471BCC187900F96360 /* WISTests.swift */; };
 		4CDDDC531BCC187A00F96360 /* WISUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC521BCC187A00F96360 /* WISUITests.swift */; };
-		4CF73D9D1C0DCC260085D6A9 /* SelectNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */; };
+		4CFBC9701C7B5DB000182A49 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFBC96F1C7B5DB000182A49 /* CoreData.framework */; };
+		4CFBC9721C7B70E300182A49 /* providers.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CFBC9711C7B70E300182A49 /* providers.json */; };
 		4CFD54C71BF17316000EF301 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C61BF17316000EF301 /* Reachability.swift */; };
-		4CFD54CA1BF22253000EF301 /* NotificationStack+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C81BF22253000EF301 /* NotificationStack+CoreDataProperties.swift */; };
-		4CFD54CB1BF22253000EF301 /* NotificationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C91BF22253000EF301 /* NotificationStack.swift */; };
 		4CFF61AA1BDB9BBA00667FE8 /* WISLoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */; };
-		4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */; };
 		4CFF61B51BDC45A100667FE8 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF61B41BDC45A100667FE8 /* Data.swift */; };
+		4CFFC7C71C6CFF8A00FC9178 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFFC7C61C6CFF8A00FC9178 /* WebViewController.swift */; };
+		4CFFC7C91C6D26A500FC9178 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFFC7C81C6D26A500FC9178 /* PopoverViewController.swift */; };
+		64CCFADAAC0AF0D6F4D51BB3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0E0F201B32E58021EC5FC9 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C7DF62F1C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64EA537169E772200778456;
+			remoteInfo = "static mailcore2 osx";
+		};
+		4C7DF6311C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6BA2C191705F4E6003F0E9E;
+			remoteInfo = "static mailcore2 ios";
+		};
+		4C7DF6331C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64EA78C169F259200778456;
+			remoteInfo = tests;
+		};
+		4C7DF6351C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6A81B911706840C00882C15;
+			remoteInfo = "test-ios";
+		};
+		4C7DF6371C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6BD288D170BD71100A91AC1;
+			remoteInfo = "mailcore osx";
+		};
+		4C7DF6391C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27780C3A19CF9CD100C77E44;
+			remoteInfo = "mailcore ios";
+		};
+		4C7DF63B1C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B5AE0219F630B3001352A6;
+			remoteInfo = unittest;
+		};
+		4C7DF63D1C7BF94E00EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C600B6141A242C3F000728F1;
+			remoteInfo = unittestcpp;
+		};
+		4C7DF63F1C7BF9A800EFD46D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C6BA2B091705F4E6003F0E9E;
+			remoteInfo = "static mailcore2 ios";
+		};
 		4CDDDC441BCC187900F96360 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4CDDDC241BCC187900F96360 /* Project object */;
@@ -56,9 +135,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C164A921C62DE9C00443810 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4C164A941C64874400443810 /* DataFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
+		4C20C94E1C6E4B9C00BEF6E9 /* MailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailViewController.swift; sourceTree = "<group>"; };
+		4C20C9C91C6E572C00BEF6E9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4C20C9CB1C6E573600BEF6E9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4C23F9391C5A6F84000D9B4C /* NotificationStack+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NotificationStack+CoreDataProperties.swift"; path = "WIS/NotificationStack+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4C23F93A1C5A6F84000D9B4C /* NotificationStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationStack.swift; path = WIS/NotificationStack.swift; sourceTree = "<group>"; };
+		4C2D78B61C76129E004315FE /* OneEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneEmailViewController.swift; sourceTree = "<group>"; };
+		4C2D78B81C76A3D3004315FE /* NavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		4C3C67081C7610EE00683A9A /* MailBodyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailBodyCell.swift; sourceTree = "<group>"; };
 		4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleNotificationCell.swift; sourceTree = "<group>"; };
-		4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLoginCell.swift; sourceTree = "<group>"; };
+		4C7576F41C56F4F4009AEDF6 /* GraphicalNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicalNotificationCell.swift; sourceTree = "<group>"; };
+		4C7576F61C56FB5F009AEDF6 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mailcore2.xcodeproj; path = "mailcore2/build-mac/mailcore2.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShakeAnimation.swift; sourceTree = "<group>"; };
+		4C9A37A21C6A32950070B4BE /* MenzaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenzaCell.swift; sourceTree = "<group>"; };
+		4C9A37D41C6CF1FD0070B4BE /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
+		4C9A37D61C6CF3930070B4BE /* SwipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
+		4C9A37D91C6CF7E30070B4BE /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.otf; path = Resources/FontAwesome.otf; sourceTree = "<group>"; };
 		4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CA6E53E1BE421EE007491A7 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -66,7 +161,7 @@
 		4CA6E5401BE421EE007491A7 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		4CA6E5411BE421EE007491A7 /* Variant+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Variant+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4CA6E5421BE421EE007491A7 /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
-		4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		4CB688311C5D071E008A9C5F /* PostponeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostponeViewController.swift; sourceTree = "<group>"; };
 		4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		4CC040781BCD84DF0067A54E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4CC0407A1BCD89190067A54E /* cacert.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = cacert.cer; sourceTree = SOURCE_ROOT; };
@@ -84,15 +179,13 @@
 		4CDDDC4E1BCC187A00F96360 /* WISUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WISUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDDDC521BCC187A00F96360 /* WISUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WISUITests.swift; sourceTree = "<group>"; };
 		4CDDDC541BCC187A00F96360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectNotificationCell.swift; sourceTree = "<group>"; };
+		4CFBC96F1C7B5DB000182A49 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4CFBC9711C7B70E300182A49 /* providers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = providers.json; path = mailcore2/resources/providers.json; sourceTree = SOURCE_ROOT; };
 		4CFD54C61BF17316000EF301 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		4CFD54C81BF22253000EF301 /* NotificationStack+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationStack+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4CFD54C91BF22253000EF301 /* NotificationStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStack.swift; sourceTree = "<group>"; };
 		4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WISLoginCell.swift; sourceTree = "<group>"; };
-		4CFF61AB1BDBE29300667FE8 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
-		4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		4CFF61B41BDC45A100667FE8 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		4CFF61B61BDC4A1000667FE8 /* WIS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WIS-Bridging-Header.h"; sourceTree = "<group>"; };
+		4CFFC7C61C6CFF8A00FC9178 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		4CFFC7C81C6D26A500FC9178 /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverViewController.swift; sourceTree = "<group>"; };
 		83AC73194BF0A4DE3106FC5F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AD0E0F201B32E58021EC5FC9 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE7C9CFE585397F5FEC7A83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,7 +196,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CB09C2C8CD47F3AFD8ECF2C /* Pods.framework in Frameworks */,
+				4C7DF6411C7BF9C700EFD46D /* libMailCore-ios.a in Frameworks */,
+				4CFBC9701C7B5DB000182A49 /* CoreData.framework in Frameworks */,
+				4C20C9EA1C6E59EE00BEF6E9 /* Security.framework in Frameworks */,
+				4C20C9E91C6E59E900BEF6E9 /* CFNetwork.framework in Frameworks */,
+				64CCFADAAC0AF0D6F4D51BB3 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,19 +224,44 @@
 		017AC00ABC01D9DD4A383124 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CFBC96F1C7B5DB000182A49 /* CoreData.framework */,
+				4C20C9CB1C6E573600BEF6E9 /* CFNetwork.framework */,
+				4C20C9C91C6E572C00BEF6E9 /* Security.framework */,
 				AD0E0F201B32E58021EC5FC9 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4C23F9341C5A6005000D9B4C /* test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = test;
+			sourceTree = "<group>";
+		};
+		4C7DF6251C7BF94D00EFD46D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C7DF6301C7BF94E00EFD46D /* libMailCore.a */,
+				4C7DF6321C7BF94E00EFD46D /* libMailCore-ios.a */,
+				4C7DF6341C7BF94E00EFD46D /* tests */,
+				4C7DF6361C7BF94E00EFD46D /* test-ios.app */,
+				4C7DF6381C7BF94E00EFD46D /* MailCore.framework */,
+				4C7DF63A1C7BF94E00EFD46D /* MailCore.framework */,
+				4C7DF63C1C7BF94E00EFD46D /* unittest.xctest */,
+				4C7DF63E1C7BF94E00EFD46D /* unittestcpp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4CA6E5381BE292E7007491A7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				4C8EC6351C02871F00CB8980 /* FBLoginCell.swift */,
 				4CFF61A91BDB9BBA00667FE8 /* WISLoginCell.swift */,
-				4CA6E54A1BE78A6D007491A7 /* NotificationCell.swift */,
+				4C7576F41C56F4F4009AEDF6 /* GraphicalNotificationCell.swift */,
+				4C9A37A21C6A32950070B4BE /* MenzaCell.swift */,
+				4C3C67081C7610EE00683A9A /* MailBodyCell.swift */,
 				4C41CE531BF1198200133A5F /* SimpleNotificationCell.swift */,
-				4CF73D9C1C0DCC260085D6A9 /* SelectNotificationCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -147,7 +269,14 @@
 		4CA6E5391BE29305007491A7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4C9A37D61C6CF3930070B4BE /* SwipeViewController.swift */,
+				4C2D78B81C76A3D3004315FE /* NavigationView.swift */,
 				4CDDDC311BCC187900F96360 /* ViewController.swift */,
+				4C20C94E1C6E4B9C00BEF6E9 /* MailViewController.swift */,
+				4C2D78B61C76129E004315FE /* OneEmailViewController.swift */,
+				4CFFC7C61C6CFF8A00FC9178 /* WebViewController.swift */,
+				4CB688311C5D071E008A9C5F /* PostponeViewController.swift */,
+				4CFFC7C81C6D26A500FC9178 /* PopoverViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -155,15 +284,16 @@
 		4CA6E53A1BE29338007491A7 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				4CFBC9711C7B70E300182A49 /* providers.json */,
+				4C9A37D91C6CF7E30070B4BE /* FontAwesome.otf */,
+				4C9A37D41C6CF1FD0070B4BE /* FontAwesome.swift */,
+				4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */,
 				4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */,
-				4CFF61B61BDC4A1000667FE8 /* WIS-Bridging-Header.h */,
-				4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */,
 				4CC0407A1BCD89190067A54E /* cacert.cer */,
 				4CFF61B41BDC45A100667FE8 /* Data.swift */,
 				4CC040781BCD84DF0067A54E /* NetworkManager.swift */,
+				4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */,
 				4CDDDC3E1BCC187900F96360 /* Info.plist */,
-				4CFF61AB1BDBE29300667FE8 /* KeychainWrapper.h */,
-				4CFF61AC1BDBE29300667FE8 /* KeychainWrapper.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -171,8 +301,8 @@
 		4CA6E5491BE42664007491A7 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				4CFD54C81BF22253000EF301 /* NotificationStack+CoreDataProperties.swift */,
-				4CFD54C91BF22253000EF301 /* NotificationStack.swift */,
+				4C23F9391C5A6F84000D9B4C /* NotificationStack+CoreDataProperties.swift */,
+				4C23F93A1C5A6F84000D9B4C /* NotificationStack.swift */,
 				4CA6E53D1BE421EE007491A7 /* Task+CoreDataProperties.swift */,
 				4CA6E53E1BE421EE007491A7 /* Task.swift */,
 				4CA6E53F1BE421EE007491A7 /* Course+CoreDataProperties.swift */,
@@ -209,13 +339,17 @@
 		4CDDDC2E1BCC187900F96360 /* WIS */ = {
 			isa = PBXGroup;
 			children = (
-				4CC040751BCD67910067A54E /* WIS-Bridging-Header.h */,
+				4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */,
+				4CDDDC2F1BCC187900F96360 /* AppDelegate.swift */,
+				4C23F9341C5A6005000D9B4C /* test */,
 				4CA6E5491BE42664007491A7 /* DataModel */,
 				4CA6E5381BE292E7007491A7 /* Cells */,
 				4CA6E5391BE29305007491A7 /* Controllers */,
 				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
+				4C164A941C64874400443810 /* DataFetcher.swift */,
+				4C7576F61C56FB5F009AEDF6 /* DrawingView.swift */,
 				4CFD54C61BF17316000EF301 /* Reachability.swift */,
-				4C9411431C1B7C1A00C6279D /* ShakeAnimation.swift */,
+				4C164A921C62DE9C00443810 /* Extensions.swift */,
 				4CDDDC331BCC187900F96360 /* Main.storyboard */,
 				4CDDDC361BCC187900F96360 /* WIS.xcdatamodeld */,
 				4CDDDC391BCC187900F96360 /* Assets.xcassets */,
@@ -264,10 +398,12 @@
 				4CDDDC2A1BCC187900F96360 /* Resources */,
 				1D7CA4A1A040928D812B0454 /* Embed Pods Frameworks */,
 				CBF32B384E0FFE99067FF507 /* Copy Pods Resources */,
+				4C496B931C7230C400F86810 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4C7DF6401C7BF9A800EFD46D /* PBXTargetDependency */,
 			);
 			name = WIS;
 			productName = WIS;
@@ -322,7 +458,7 @@
 				TargetAttributes = {
 					4CDDDC2B1BCC187900F96360 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = VL9G7P7P42;
+						DevelopmentTeam = BKAY96V4PX;
 					};
 					4CDDDC421BCC187900F96360 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -347,6 +483,12 @@
 			mainGroup = 4CDDDC231BCC187900F96360;
 			productRefGroup = 4CDDDC2D1BCC187900F96360 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4C7DF6251C7BF94D00EFD46D /* Products */;
+					ProjectRef = 4C7DF6241C7BF94D00EFD46D /* mailcore2.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4CDDDC2B1BCC187900F96360 /* WIS */,
@@ -356,6 +498,65 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		4C7DF6301C7BF94E00EFD46D /* libMailCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMailCore.a;
+			remoteRef = 4C7DF62F1C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF6321C7BF94E00EFD46D /* libMailCore-ios.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libMailCore-ios.a";
+			remoteRef = 4C7DF6311C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF6341C7BF94E00EFD46D /* tests */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = tests;
+			remoteRef = 4C7DF6331C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF6361C7BF94E00EFD46D /* test-ios.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "test-ios.app";
+			remoteRef = 4C7DF6351C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF6381C7BF94E00EFD46D /* MailCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MailCore.framework;
+			remoteRef = 4C7DF6371C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF63A1C7BF94E00EFD46D /* MailCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MailCore.framework;
+			remoteRef = 4C7DF6391C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF63C1C7BF94E00EFD46D /* unittest.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = unittest.xctest;
+			remoteRef = 4C7DF63B1C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C7DF63E1C7BF94E00EFD46D /* unittestcpp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = unittestcpp;
+			remoteRef = 4C7DF63D1C7BF94E00EFD46D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		4CDDDC2A1BCC187900F96360 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -364,6 +565,8 @@
 				4CC0407B1BCD89190067A54E /* cacert.cer in Resources */,
 				4CDDDC3D1BCC187900F96360 /* LaunchScreen.storyboard in Resources */,
 				4CDDDC3A1BCC187900F96360 /* Assets.xcassets in Resources */,
+				4C9A37DA1C6CF7E30070B4BE /* FontAwesome.otf in Resources */,
+				4CFBC9721C7B70E300182A49 /* providers.json in Resources */,
 				4CDDDC351BCC187900F96360 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,6 +618,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4C496B931C7230C400F86810 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 3a339fdffaa518d5559ec32c6237e29066d62c9e c6925b3a7f452eac9f7880ddc779702d5be666bfebcad7d15d1c00c57b12fe65";
+		};
 		CBF32B384E0FFE99067FF507 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,28 +653,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C8EC6361C02871F00CB8980 /* FBLoginCell.swift in Sources */,
+				4C2D78B71C76129E004315FE /* OneEmailViewController.swift in Sources */,
+				4C23F93B1C5A6F84000D9B4C /* NotificationStack+CoreDataProperties.swift in Sources */,
 				4CA6E5461BE421EE007491A7 /* Course.swift in Sources */,
+				4C3C67091C7610EE00683A9A /* MailBodyCell.swift in Sources */,
 				4C41CE541BF1198200133A5F /* SimpleNotificationCell.swift in Sources */,
-				4CFD54CA1BF22253000EF301 /* NotificationStack+CoreDataProperties.swift in Sources */,
+				4C164A931C62DE9C00443810 /* Extensions.swift in Sources */,
+				4C7576F51C56F4F4009AEDF6 /* GraphicalNotificationCell.swift in Sources */,
 				4CC040791BCD84DF0067A54E /* NetworkManager.swift in Sources */,
 				4CA6E5481BE421EE007491A7 /* Variant.swift in Sources */,
 				4CA6E53C1BE4145D007491A7 /* NotificationManager.swift in Sources */,
+				4C9A37D51C6CF1FD0070B4BE /* FontAwesome.swift in Sources */,
 				4CDDDC321BCC187900F96360 /* ViewController.swift in Sources */,
 				4CA6E5441BE421EE007491A7 /* Task.swift in Sources */,
+				4C2D78B91C76A3D3004315FE /* NavigationView.swift in Sources */,
+				4CFFC7C71C6CFF8A00FC9178 /* WebViewController.swift in Sources */,
 				4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */,
-				4CA6E54B1BE78A6D007491A7 /* NotificationCell.swift in Sources */,
 				4C9411441C1B7C1A00C6279D /* ShakeAnimation.swift in Sources */,
 				4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */,
-				4CF73D9D1C0DCC260085D6A9 /* SelectNotificationCell.swift in Sources */,
-				4CFF61AD1BDBE29300667FE8 /* KeychainWrapper.m in Sources */,
+				4C164A951C64874400443810 /* DataFetcher.swift in Sources */,
+				4C23F93C1C5A6F84000D9B4C /* NotificationStack.swift in Sources */,
+				4C9A37A31C6A32950070B4BE /* MenzaCell.swift in Sources */,
+				4C9A37D71C6CF3930070B4BE /* SwipeViewController.swift in Sources */,
+				4CFFC7C91C6D26A500FC9178 /* PopoverViewController.swift in Sources */,
 				4CDDDC381BCC187900F96360 /* WIS.xcdatamodeld in Sources */,
+				4CB688321C5D071E008A9C5F /* PostponeViewController.swift in Sources */,
 				4CFF61AA1BDB9BBA00667FE8 /* WISLoginCell.swift in Sources */,
-				4CFD54CB1BF22253000EF301 /* NotificationStack.swift in Sources */,
+				4C7576F71C56FB5F009AEDF6 /* DrawingView.swift in Sources */,
 				4CFD54C71BF17316000EF301 /* Reachability.swift in Sources */,
 				4CA6E5431BE421EE007491A7 /* Task+CoreDataProperties.swift in Sources */,
 				4CA6E5451BE421EE007491A7 /* Course+CoreDataProperties.swift in Sources */,
 				4CFF61B51BDC45A100667FE8 /* Data.swift in Sources */,
+				4C20C94F1C6E4B9C00BEF6E9 /* MailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +707,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C7DF6401C7BF9A800EFD46D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "static mailcore2 ios";
+			targetProxy = 4C7DF63F1C7BF9A800EFD46D /* PBXContainerItemProxy */;
+		};
 		4CDDDC451BCC187900F96360 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4CDDDC2B1BCC187900F96360 /* WIS */;
@@ -553,6 +784,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "WIS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -590,6 +822,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "WIS-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -599,15 +832,54 @@
 			baseConfigurationReference = CBE7C9CFE585397F5FEC7A83 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+					"${PODS_ROOT}/Headers/Public",
+					"${PODS_ROOT}/Headers/Public/mailcore2-ios/**",
+					"$(PROJECT_DIR)/mailcore2/build-mac/**",
+				);
 				INFOPLIST_FILE = WIS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomasscavnicky.dev.WIS;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/mailcore2-ios/lib",
+					"$(PROJECT_DIR)/mailcore2/**",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Fuzi\"",
+					"-framework",
+					"\"MGSwipeTableCell\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-lctemplate-ios",
+					"-letpan-ios",
+					"-lxml2",
+					"-lsasl2",
+					"-liconv",
+					"-ltidy",
+					"-lz",
+					"-lc++",
+					"-lresolv",
+					"-stdlib=libc++",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.ents.wis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mbp13/Dev/WIS/WIS-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "Pods/**/**";
 			};
 			name = Debug;
 		};
@@ -616,14 +888,53 @@
 			baseConfigurationReference = 83AC73194BF0A4DE3106FC5F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+					"${PODS_ROOT}/Headers/Public",
+					"${PODS_ROOT}/Headers/Public/mailcore2-ios/**",
+					"$(PROJECT_DIR)/mailcore2/build-mac/**",
+				);
 				INFOPLIST_FILE = WIS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomasscavnicky.dev.WIS;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_ROOT}/mailcore2-ios/lib",
+					"$(PROJECT_DIR)/mailcore2/**",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Fuzi\"",
+					"-framework",
+					"\"MGSwipeTableCell\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-lctemplate-ios",
+					"-letpan-ios",
+					"-lxml2",
+					"-lsasl2",
+					"-liconv",
+					"-ltidy",
+					"-lz",
+					"-lc++",
+					"-lresolv",
+					"-stdlib=libc++",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.ents.wis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "WIS/WIS-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mbp13/Dev/WIS/WIS-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				USER_HEADER_SEARCH_PATHS = "Pods/**/**";
 			};
 			name = Release;
 		};

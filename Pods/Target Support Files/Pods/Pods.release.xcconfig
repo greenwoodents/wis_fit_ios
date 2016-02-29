@@ -1,9 +1,10 @@
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(SDKROOT)/usr/include/libxml2
+HEADER_SEARCH_PATHS = $(SDKROOT)/usr/include/libxml2 $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/mailcore2-ios"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/Alamofire.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Fuzi.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/MGSwipeTableCell.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SwiftyJSON.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "Fuzi" -framework "MGSwipeTableCell" -framework "SwiftyJSON"
+LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/mailcore2-ios/lib"
+OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/Alamofire.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Fuzi.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/MGSwipeTableCell.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SwiftyJSON.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/mailcore2-ios"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"MailCore-ios" -l"c++" -l"iconv" -l"resolv" -l"xml2" -l"z" -framework "Alamofire" -framework "Fuzi" -framework "MGSwipeTableCell" -framework "SwiftyJSON"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
 PODS_ROOT = ${SRCROOT}/Pods
