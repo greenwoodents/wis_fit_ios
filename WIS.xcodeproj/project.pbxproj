@@ -44,6 +44,7 @@
 		4CDDDC3D1BCC187900F96360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CDDDC3B1BCC187900F96360 /* LaunchScreen.storyboard */; };
 		4CDDDC481BCC187900F96360 /* WISTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC471BCC187900F96360 /* WISTests.swift */; };
 		4CDDDC531BCC187A00F96360 /* WISUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDDDC521BCC187A00F96360 /* WISUITests.swift */; };
+		4CFB7E891C88A90400F799C2 /* NewsFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB7E881C88A90400F799C2 /* NewsFeed.swift */; };
 		4CFBC9701C7B5DB000182A49 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFBC96F1C7B5DB000182A49 /* CoreData.framework */; };
 		4CFBC9721C7B70E300182A49 /* providers.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CFBC9711C7B70E300182A49 /* providers.json */; };
 		4CFD54C71BF17316000EF301 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD54C61BF17316000EF301 /* Reachability.swift */; };
@@ -179,6 +180,7 @@
 		4CDDDC4E1BCC187A00F96360 /* WISUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WISUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDDDC521BCC187A00F96360 /* WISUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WISUITests.swift; sourceTree = "<group>"; };
 		4CDDDC541BCC187A00F96360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CFB7E881C88A90400F799C2 /* NewsFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsFeed.swift; sourceTree = "<group>"; };
 		4CFBC96F1C7B5DB000182A49 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4CFBC9711C7B70E300182A49 /* providers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = providers.json; path = mailcore2/resources/providers.json; sourceTree = SOURCE_ROOT; };
 		4CFD54C61BF17316000EF301 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				4CA6E5391BE29305007491A7 /* Controllers */,
 				4CA6E53B1BE4145D007491A7 /* NotificationManager.swift */,
 				4C164A941C64874400443810 /* DataFetcher.swift */,
+				4CFB7E881C88A90400F799C2 /* NewsFeed.swift */,
 				4C7576F61C56FB5F009AEDF6 /* DrawingView.swift */,
 				4CFD54C61BF17316000EF301 /* Reachability.swift */,
 				4C164A921C62DE9C00443810 /* Extensions.swift */,
@@ -629,7 +632,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 3a339fdffaa518d5559ec32c6237e29066d62c9e c6925b3a7f452eac9f7880ddc779702d5be666bfebcad7d15d1c00c57b12fe65";
+			shellScript = "#\"${PODS_ROOT}/Fabric/run\" 3a339fdffaa518d5559ec32c6237e29066d62c9e c6925b3a7f452eac9f7880ddc779702d5be666bfebcad7d15d1c00c57b12fe65";
 		};
 		CBF32B384E0FFE99067FF507 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -668,6 +671,7 @@
 				4CA6E5441BE421EE007491A7 /* Task.swift in Sources */,
 				4C2D78B91C76A3D3004315FE /* NavigationView.swift in Sources */,
 				4CFFC7C71C6CFF8A00FC9178 /* WebViewController.swift in Sources */,
+				4CFB7E891C88A90400F799C2 /* NewsFeed.swift in Sources */,
 				4CA6E5471BE421EE007491A7 /* Variant+CoreDataProperties.swift in Sources */,
 				4C9411441C1B7C1A00C6279D /* ShakeAnimation.swift in Sources */,
 				4CDDDC301BCC187900F96360 /* AppDelegate.swift in Sources */,

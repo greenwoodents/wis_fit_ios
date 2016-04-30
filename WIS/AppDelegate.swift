@@ -8,8 +8,8 @@
 
 import UIKit
 import CoreData
-import Fabric
-import Crashlytics
+//import Fabric
+//import Crashlytics
 
 //import FBSDKCoreKit
 

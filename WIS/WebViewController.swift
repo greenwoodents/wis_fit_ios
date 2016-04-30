@@ -118,8 +118,10 @@ class WebViewController: UIViewController, UIPopoverPresentationControllerDelega
                 case .Success:
                     if let value = response.result.value {
                         let newValue = value.stringByReplacingOccurrencesOfString("\n", withString: "")
-                        let htmlWithTable = matchesForRegexInText("<table border=1.*Last modification", text: newValue).first!
+                        let htmlWithTable = matchesForRegexInText("<table border=1.*[Last modification|Poslední aktualizace]", text: newValue).first!
                         let finalHtmlWithTable = htmlWithTable.stringByReplacingOccurrencesOfString("Last modification", withString: "")
+                        
+                        print(finalHtmlWithTable)
                         
                         self.WebView.loadHTMLString(finalHtmlWithTable, baseURL: NSURL(string: "https://wis.fit.vutbr.cz")!)
                         self.activityIndicator.stopAnimating()

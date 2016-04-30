@@ -9,6 +9,14 @@
 import Foundation
 
 
+public struct SelectCell {
+    var course: String
+    var title: String
+    var detail: String
+    var what: String?
+    var when: NSDate?
+}
+
 public func matchesForRegexInText(regex: String!, text: String!) -> [String] {
     
     do {

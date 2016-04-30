@@ -56,13 +56,6 @@ class ViewController:   UITableViewController, UITextFieldDelegate, MGSwipeTable
             callback(menu: menu)
         }
     }
-    struct SelectCell {
-        var course: String
-        var title: String
-        var detail: String
-        var what: String?
-        var when: NSDate?
-    }
     
     override init(style: UITableViewStyle) {
         dataFetchController = DataFetcher()
@@ -793,3 +786,4 @@ class ViewController:   UITableViewController, UITextFieldDelegate, MGSwipeTable
         tableView.endUpdates()
     }
 }
+

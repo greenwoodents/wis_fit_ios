@@ -56,6 +56,10 @@ class MailViewController: UITableViewController {
                 } else {
                     self.emails.removeAll()
                     self.emails = (fetchedMessages as! [MCOIMAPMessage]).reverse()
+                    for email in self.emails {
+                        print("Subject: \(email.header.subject)")
+                        print("Flags: \(email.flags)")
+                    }
                     self.tableView.reloadData()
                     self.refreshControl!.endRefreshing()
                 }
